@@ -16,7 +16,7 @@ Additionally, I will try to learn a few JS/TS concepts over making a simple WebG
   - [stenciljs.com](https://stenciljs.com/)
   - [MDN Docs - Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
   - [MDN Docs - Web DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
-  - 
+  - [Awesome Web Components - Learn](https://github.com/web-padawan/awesome-web-components)
 - WebGL Resources
   - [learnwebgl.brown37.net](https://learnwebgl.brown37.net/rendering/introduction.html)
   - [webglfundamentals.org](https://webglfundamentals.org/)
