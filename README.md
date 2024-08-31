@@ -9,12 +9,22 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 
 # Minor Notes
 - Have node.js & npm
+  1. X
+  2. Y
+  3. Z
 - Guide to run Typescript code locally in VSC
-  1. Pre-requsites have node & npm check by doing: ```node -v && npm -v```
-  2. Install typescript compiler globally via npm ```npm install -g typescript```
-  3. Compile typescript code ```tsc filename.ts```
-  4. Run compiled javascript code ```node filename.js```
-  - It converts your TS to JS & ultimately runs the JS file, you can do all this with just this command that just merges the two together ```tsc filename.ts && node filename.ts```
+  1. Pre-pre-requsite note, please if you are on windows just use a cmdprompt terminal in VSC & not powershell, for some reason powershell was auto defaulted for me & it made things worse.
+  2. Pre-requsites have node & npm check by doing: 
+    - mac/terminal > ```node -v && npm -v```
+    - windows/powershell > ```node -v ; npm -v```
+    - windows/cmdprompt > ```node -v && npm -v```
+  3. Install typescript compiler globally via npm ```npm install -g typescript```
+  4. Compile typescript code ```tsc filename.ts```
+  5. Run compiled javascript code ```node filename.js```
+  - It converts your TS to JS & ultimately runs the JS file, you can do all this with just this 1 command that just merges the two together, check below:
+    - mac/terminal > ```tsc classes.ts && node classes.js```
+    - windows/powershell > ```tsc.cmd classes.ts ; node classes.js```
+    - windows/cmdprompt > ```tsc classes.ts && node classes.js```
 
 # Resources
 - [MDN Docs](https://developer.mozilla.org/en-US/)
