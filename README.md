@@ -7,6 +7,15 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 2. Web Components API
 3. Need to relearn important things related to web DOM & Components in a web project.
 
+# Minor Notes
+- Have node.js & npm
+- Guide to run Typescript code locally in VSC
+  1. Pre-requsites have node & npm check by doing: ```node -v && npm -v```
+  2. Install typescript compiler globally via npm ```npm install -g typescript```
+  3. Compile typescript code ```tsc filename.ts```
+  4. Run compiled javascript code ```node filename.js```
+  - It converts your TS to JS & ultimately runs the JS file, you can do all this with just this command that just merges the two together ```tsc filename.ts && node filename.ts```
+
 # Resources
 - [MDN Docs](https://developer.mozilla.org/en-US/)
 - [MDN Docs - Learn full web development from scratch](https://developer.mozilla.org/en-US/docs/Learn)
