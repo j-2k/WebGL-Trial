@@ -22,9 +22,9 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
   4. Compile typescript code ```tsc filename.ts```
   5. Run compiled javascript code ```node filename.js```
   - It converts your TS to JS & ultimately runs the JS file, you can do all this with just this 1 command that just merges the two together, check below:
-    - mac/terminal > ```tsc classes.ts && node classes.js```
-    - windows/powershell > ```tsc.cmd classes.ts ; node classes.js```
-    - windows/cmdprompt > ```tsc classes.ts && node classes.js```
+    - mac/terminal > ```tsc filename.ts && node filename.js```
+    - windows/powershell > ```tsc.cmd filename.ts ; node filename.js```
+    - windows/cmdprompt > ```tsc filename.ts && node filename.js```
 
 # Resources
 - [MDN Docs](https://developer.mozilla.org/en-US/)
