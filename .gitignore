@@ -1,32 +1,36 @@
-# Prerequisites
-*.d
+# Ignore node_modules directory
+node_modules/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Ignore build artifacts
+dist/
+build/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Ignore environment-specific files
+.env
+.env.local
+.env.*.local
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# Ignore log files
+*.log
 
-# Fortran module files
-*.mod
-*.smod
+# Ignore editor-specific files
+.vscode/
+.idea/
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Ignore compiled files
+*.class
+*.jar
+*.war
+*.ear
 
-# Executables
-*.exe
-*.out
-*.app
+# Ignore package-lock.json for npm
+package-lock.json
+
+# Ignore yarn.lock for Yarn
+yarn.lock
+
+# Ignore .DS_Store files on macOS
+.DS_Store
+
+# Ignore Thumbs.db files on Windows
+Thumbs.db
