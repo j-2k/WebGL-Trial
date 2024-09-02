@@ -1,3 +1,6 @@
+import helloWorld from "./hello";
+helloWorld();
+
 //Placing title before canvas
 // Select the canvas element
 const canvas = document.getElementById('webglCanvas') as HTMLCanvasElement;
@@ -35,3 +38,4 @@ bodyMessages.forEach(msg => {
     paragraphElement.textContent = msg;
     document.body.appendChild(paragraphElement);
 });
+
