@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "server": "lite-server",
-    "start": "concurrently \"npm run watch\" \"npm run server\""
+    "start": "concurrently \"npm run build\" \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
   "author": "",

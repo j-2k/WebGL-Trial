@@ -7,24 +7,49 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 2. Web Components API
 3. Need to relearn important things related to web DOM & Components in a web project.
 
-# Minor Notes
-- Have node.js & npm
-  1. X
-  2. Y
-  3. Z
-- Guide to run Typescript code locally in VSC
+# Project Requirement Notes
+- Have nodejs & npm
+  1. Download nodejs & npm (nvm is better than using nodejs installer!)
+    - nvm (use nvm to download nodejs!) > https://github.com/nvm-sh/nvm
+    - nodejs (I suggest use nvm to install nodejs!) > https://nodejs.org/en
+    - npm > https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+  2. Check if you downloaded them properly by doing the below:
+    - ```node -v```
+    - ```npm -v```
+
+# Building the project
+1. Enter the correct directory WebGL-Trial/learn-webgl
+2. Install dependencies using ```npm i``` in your terminal
+3. Run & start the project using ```npm start```` in terminal again
+4. The website should automatically open on localhost:3000! (start will build & setup the live server & watcher automatically)
+
+# My Platform, Versioning, & Dev environment
+I will list what I used, just incase for anyone wondering what I used/platform choice to make this project.
+- Mac (Sonoma 14) & Windows 10
+- Visual Studio Code
+- npm version ```npm -v```  10.8.2
+- node version ```node -v``` v20.17.0
+- nvm version ```nvm -v``` 0.39.0
+
+## Dependencies documentation
+  - X
+  - Y
+  - Z
+
+## Guide to run Typescript code locally in VSC
+***SKIP THIS IF YOU DONT CARE ABOUT COMPILING PURE TS CODE BY ITSELF!***
   1. Pre-pre-requsite note, please if you are on windows just use a cmdprompt terminal in VSC & not powershell, for some reason powershell was auto defaulted for me & it made things worse.
-  2. Pre-requsites have node & npm check by doing: 
-    - mac/terminal > ```node -v && npm -v```
-    - windows/powershell > ```node -v ; npm -v```
-    - windows/cmdprompt > ```node -v && npm -v```
+  2. Pre-requsites have nodejs & npm check by doing: 
+       - mac/terminal > ```node -v && npm -v```
+       - windows/powershell > ```node -v ; npm -v```
+       - windows/cmdprompt > ```node -v && npm -v```
   3. Install typescript compiler globally via npm ```npm install -g typescript```
   4. Compile typescript code ```tsc filename.ts```
   5. Run compiled javascript code ```node filename.js```
-  - It converts your TS to JS & ultimately runs the JS file, you can do all this with just this 1 command that just merges the two together, check below:
-    - mac/terminal > ```tsc filename.ts && node filename.js```
-    - windows/powershell > ```tsc.cmd filename.ts ; node filename.js```
-    - windows/cmdprompt > ```tsc filename.ts && node filename.js```
+     - ```tsc``` converts your TS to JS & ultimately we just run the JS file, you can do all this with just this 1 command that just merges the two together, check below:
+       - mac/terminal > ```tsc filename.ts && node filename.js```
+       - windows/powershell > ```tsc.cmd filename.ts ; node filename.js```
+       - windows/cmdprompt > ```tsc filename.ts && node filename.js```
 
 # Resources
 - [MDN Docs](https://developer.mozilla.org/en-US/)
