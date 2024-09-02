@@ -20,7 +20,7 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 # Building the project
 1. Enter the correct directory WebGL-Trial/learn-webgl
 2. Install dependencies using ```npm i``` in your terminal
-3. Run & start the project using ```npm start```` in terminal again
+3. Run & start the project using ```npm start``` in terminal again
 4. The website should automatically open on localhost:3000! (start will build & setup the live server & watcher automatically)
 
 # My Platform, Versioning, & Dev environment
