@@ -3,13 +3,10 @@ function StartCanvas(){
     const canvas = document.getElementById('webglCanvas') as HTMLCanvasElement;
 
     // Get the 2D context from the canvas
-    const context = canvas.getContext('2d');
+    const gl = canvas.getContext('webgl');
 
-    if (context) {
-        context.fillStyle = '#BF00FF';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-    } else {
-        console.error('Canvas 2D context is not available.');
+    if (gl === null) {
+        alert("Unable to initialize WebGL. Your browser or machine may not support it.");
     }
     return canvas;
 }
