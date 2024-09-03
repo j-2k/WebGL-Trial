@@ -1,4 +1,9 @@
-function StartMessages(canvas: HTMLCanvasElement): void {
+function StartMessages(canvasId: string): void {
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!canvas) {
+        console.error(`Canvas with id '${canvasId}' not found`);
+    }
+
     // Create a new text element (e.g., a paragraph)
     let message: string = "Hello WebGL! 🎨";
     const textElement = document.createElement('h1');
