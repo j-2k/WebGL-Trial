@@ -29,3 +29,7 @@ p {
   font-size: 24px;
   font-weight: 300;
 }
+
+canvas {
+  border: 4px solid rgb(255, 255, 0);
+}
