@@ -1,9 +1,10 @@
-import helloWorld from "./hello";
+import helloWorld from "./hello.js";
 helloWorld();
 
 //Placing title before canvas
 // Select the canvas element
 const canvas = document.getElementById('webglCanvas') as HTMLCanvasElement;
+
 
 // Get the 2D context from the canvas
 const context = canvas.getContext('2d');
