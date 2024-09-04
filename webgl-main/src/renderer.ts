@@ -38,6 +38,11 @@ function Renderer(gl: WebGLRenderingContext) : void {
         0, 0,           //clip space (screen space/canvas would be 400,300)
         0, 0.5,         //clip space (screen space/canvas would be 400,450)
         0.7, 0,         //clip space (screen space/canvas would be 400,510)
+
+        //Second Triangle
+        -0.5, -0.6,
+        -0.7, -0.1,
+        -0.2, -0.3,
     ];
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
     
@@ -64,7 +69,7 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     var primitiveType = gl.TRIANGLES;
     var offset = 0;
-    var count = 3;
+    var count = 6;
     gl.drawArrays(primitiveType, offset, count);
 }
 
