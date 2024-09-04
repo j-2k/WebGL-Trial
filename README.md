@@ -18,10 +18,10 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
     - ```npm -v```
 
 # Building the project
-1. Enter the correct directory WebGL-Trial/learn-webgl
+1. Enter the correct directory WebGL-Trial/webgl-main
 2. Install dependencies using ```npm i``` in your terminal
-3. Run & start the project using ```npm start``` in terminal again
-4. The website should automatically open on localhost:3000! (start will build & setup the live server & watcher automatically)
+3. Run & start the project using ```npm run dev``` in terminal again
+4. The website should automatically open on localhost:5173! (Check the terminal incase its a different port! If it is taken Vite will automatically try the next available port.)
 
 # My Platform, Versioning, & Dev environment
 I will list what I used, just incase for anyone wondering what I used/platform choice to make this project.
@@ -31,11 +31,13 @@ I will list what I used, just incase for anyone wondering what I used/platform c
 - node version ```node -v``` v20.17.0
 - nvm version ```nvm -v``` 0.39.0
 
-## Dependencies
+## Project Dependencies
   - **Typescript**
     - For obvious reasons.  
   - **Vite**
     - Vite fixed many issues I had previously.
+  - **WebGL**
+    - Make sure your browser/machine supports WebGL! 
   - *Old/Previous Packages (IGNORE THIS)*
     - Was using lite-server & watcher (replaced by vite).
 
