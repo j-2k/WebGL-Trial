@@ -26,15 +26,18 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 # My Platform, Versioning, & Dev environment
 I will list what I used, just incase for anyone wondering what I used/platform choice to make this project.
 - Mac (Sonoma 14) & Windows 10
-- Visual Studio Code
+- Visual Studio Code / Cursor
 - npm version ```npm -v```  10.8.2
 - node version ```node -v``` v20.17.0
 - nvm version ```nvm -v``` 0.39.0
 
-## Dependencies documentation
-  - X
-  - Y
-  - Z
+## Dependencies
+  - **Typescript**
+    - For obvious reasons.  
+  - **Vite**
+    - Vite fixed many issues I had previously.
+  - *Old/Previous Packages (IGNORE THIS)*
+    - Was using lite-server & watcher (replaced by vite).
 
 ## Guide to run Typescript code locally in VSC
 ***SKIP THIS IF YOU DONT CARE ABOUT COMPILING PURE TS CODE BY ITSELF!***
