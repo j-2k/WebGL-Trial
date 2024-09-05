@@ -13,9 +13,11 @@ function StartMessages(canvasId: string): void {
     document.body.insertBefore(textElement, canvas);
 
 
-    message = 'Running main.ts...';
+    message = 'github.com/j-2k/WebGL-Trial';
     const titleElement = document.createElement('h1');
     titleElement.textContent = message;
+    //titleElement.href = 'https://github.com/j-2k/WebGL-Trial';
+    //titleElement.target = '_blank';
     document.body.appendChild(titleElement);
 
     const bodyMessages = [

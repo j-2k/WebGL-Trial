@@ -6,11 +6,13 @@ import default_fragment_shader from "./shaders-glsl/defaultshader/fragmentshader
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
+import { DrawRectangle } from "./shapes";
+import { RandomInt } from "./custom-math-utils";
+
 function Renderer(gl: WebGLRenderingContext) : void {
-    if (!gl) {
-        console.error("Failed to get WebGL context/Might not be supported");
-        return;
-    }
+    //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+    //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
+    gl.viewport(0,0,gl.canvas.width,gl.canvas.height);
 
     //Making a shaderprogram that webgl will use.
     const shaderProgram = CreateMaterial(gl, UVtest_Vshader, UVtest_Fshader);
@@ -19,6 +21,9 @@ function Renderer(gl: WebGLRenderingContext) : void {
         return;
     }
 
+    //Tell WebGL to use the shader program with the final material we made above!
+    gl.useProgram(shaderProgram);
+
     //Get references to the memory locations of variables in the shader program
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram,"a_position");
     const resolutionUniformLocation = gl.getUniformLocation(shaderProgram,"u_resolution");
@@ -26,16 +31,10 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     //Making a position memory buffer
     const positionBuffer = gl.createBuffer();
-    //Binding the buffer to the GLSL shader program
+    //Binding the newly created position buffer to the gl array buffer context, 
+    //this is necessary for the buffer to be used by the shader program 
+    //& gl.ARRAY_BUFFER will be used to pass in vertex data as we'll see later in drawing functions
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-    //Buffer Positions Data for 2 tris use to be here
-    //const positions = [x1, y1, x2, y1, x1, y2,x2, y1,x2, y2,x1, y2,];
-
-    //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
-    gl.viewport(0,0,gl.canvas.width,gl.canvas.height);
-
-    gl.useProgram(shaderProgram);
 
     //Enable the vertex attribute
     gl.enableVertexAttribArray(positionAttributeLocation);
@@ -56,46 +55,6 @@ function Renderer(gl: WebGLRenderingContext) : void {
         RandomInt(20,gl.canvas.width * 0.25), RandomInt(20,gl.canvas.height * 0.25),
         colorUniformLocation,i,10,true);
     }
-}
-
-function RandomInt(minInclusive: number, maxInclusive: number) : number {
-    return Math.floor(Math.random() * (maxInclusive - minInclusive + 1)) + minInclusive;
-}
-
-function RandomFloat(minInclusive: number, maxInclusive: number) : number {
-    return Math.random() * (maxInclusive - minInclusive) + minInclusive;
-}
-
-function DrawRectangle(gl: WebGLRenderingContext, x1: number, y1: number, width: number, height: number,colorUniformPointer: WebGLUniformLocation | null, 
-    index : number = 1, maxIndex : number = 10, isRandomColor : boolean = true) : void {
-    const x2 = x1 + width;
-    const y2 = y1 + height;
-
-    const positions = [
-        x1, y1,
-        x2, y1,
-        x1, y2,
-        x2, y1,
-        x2, y2,
-        x1, y2,
-    ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-    
-    if(!isRandomColor)
-    {
-        //Color based on loop index
-        const current = index/maxIndex;
-        gl.uniform4f(colorUniformPointer, current, current, current, 1);
-    }
-    else
-    {
-        gl.uniform4f(colorUniformPointer, RandomFloat(0,1), RandomFloat(0,1), RandomFloat(0,1), 1);
-    }
-
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 6;
-    gl.drawArrays(primitiveType, offset, count);
 }
 
 export {

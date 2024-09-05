@@ -7,6 +7,10 @@
   color: rgb(255, 255, 255);
   background-color: #242424;
 
+  background:linear-gradient(45deg, hsl(165, 100%, 53%), #3c5fff, #ff41bc, #ffb833);
+  background-size: 100% 100%;
+
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,6 +19,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  text-shadow: 10px solid red;
   place-items: center;
   display: grid;
   margin: 0;
@@ -30,6 +35,17 @@ p {
   font-weight: 300;
 }
 
+@keyframes shiftingColors {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 canvas {
-  border: 4px solid rgb(255, 255, 0);
+  border: 4px solid rgb(255, 255, 255);
+  background:linear-gradient(270deg, #0fffc1, #7e0fff, #ff00a6, #ffa500);
+  background-size: 500% 500%;
+  animation: shiftingColors 10s ease infinite;
+  /*filter: blur(0.5px); carefull with this as it messes with the internal canvas!*/
+  box-shadow: 0 0 25px 5px rgba(255, 255, 255, 1);
 }
