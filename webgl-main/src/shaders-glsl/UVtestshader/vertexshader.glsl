@@ -13,5 +13,8 @@ void main() {
   //shift the position from 0 to 2 to -1 to 1 back to clip space
   vec2 clipSpace = scaledUV02 - 1.0;
 
-  gl_Position = vec4(clipSpace,0.0,1.0);
+  //flip y to fit standard 2d graphics api coordinate system (0,0) at top left and was (0,0) at bottom left
+  clipSpace *= vec2(1.0, -1.0);
+
+  gl_Position = vec4(clipSpace, 0.0,1.0);
 }

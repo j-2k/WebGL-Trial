@@ -28,7 +28,7 @@ function Renderer(gl: WebGLRenderingContext) : void {
     //Supplying the data to the GLSL shader program
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram,"a_position");
     const resolutionUniformLocation = gl.getUniformLocation(shaderProgram,"u_resolution");
-
+    const colorUniformLocation = gl.getUniformLocation(shaderProgram,"u_color");
 
     //Buffer creation
     const positionBuffer = gl.createBuffer();
@@ -54,10 +54,8 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     gl.enableVertexAttribArray(positionAttributeLocation);
 
-    // Bind the position buffer.
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    gl.uniform4f(colorUniformLocation, 0.2, 0.8, 0.4, 1.0);
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
     var size = 2;          // 2 components per iteration
