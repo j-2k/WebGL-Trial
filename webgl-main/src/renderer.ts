@@ -1,3 +1,5 @@
+import { CreateMaterial } from "./render-utils";
+
 import default_vertex_shader from "./shaders-glsl/defaultshader/vertexshader.glsl?raw";
 import default_fragment_shader from "./shaders-glsl/defaultshader/fragmentshader.glsl?raw";
 
@@ -10,18 +12,9 @@ function Renderer(gl: WebGLRenderingContext) : void {
         return;
     }
 
-    //Shader creation
-    const vertexshader = CreateShader(gl, gl.VERTEX_SHADER, UVtest_Vshader);
-    const fragmentshader = CreateShader(gl, gl.FRAGMENT_SHADER, UVtest_Fshader);
-    if (!vertexshader || !fragmentshader) {
-        console.error("Failed to create shader exiting Renderer function...");
-        return;
-    }
-
-    //Shader program creation
-    const shaderProgram = CreateProgram(gl, vertexshader, fragmentshader);
+    const shaderProgram = CreateMaterial(gl, UVtest_Vshader, UVtest_Fshader);
     if (!shaderProgram) {
-        console.error("Failed to create shader program exiting Renderer function...");
+        console.error("Failed to create shader program inside the Renderer function...");
         return;
     }
 
@@ -69,45 +62,6 @@ function Renderer(gl: WebGLRenderingContext) : void {
     var offset = 0;
     var count = 6;
     gl.drawArrays(primitiveType, offset, count);
-}
-
-function CreateShader(gl: WebGLRenderingContext, type: number, source: string) : WebGLShader | null {
-    const shader = gl.createShader(type) as WebGLShader | null;
-    if (!shader) {
-        console.error("Failed to create shader inside the CreateShader function...");
-        return null;
-    }
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    const compileStatus : boolean = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-    if (compileStatus) {
-        return shader;
-    }
-    
-    console.error(gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-    return null;
-}
-
-//Make a Shader program & Linking both Vertex & Fragment shader together
-function CreateProgram(gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) : WebGLProgram | null {
-    const shaderProgram = gl.createProgram() as WebGLProgram | null;
-    if (!shaderProgram || !vertexShader || !fragmentShader) {
-        console.error("Failed to create shader program inside the CreateProgram function...");
-        return null;
-    }
-    gl.attachShader(shaderProgram, vertexShader);
-    gl.attachShader(shaderProgram, fragmentShader);
-    gl.linkProgram(shaderProgram);
-
-    const linkStatus : boolean = gl.getProgramParameter(shaderProgram, gl.LINK_STATUS);
-    if (linkStatus) {
-        return shaderProgram;
-    }
-
-    console.error(gl.getProgramInfoLog(shaderProgram));
-    gl.deleteProgram(shaderProgram);
-    return null;
 }
 
 export {
