@@ -1,18 +1,18 @@
 import default_vertex_shader from "./shaders-glsl/defaultshader/vertexshader.glsl?raw";
 import default_fragment_shader from "./shaders-glsl/defaultshader/fragmentshader.glsl?raw";
 
+import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
+import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
+
 function Renderer(gl: WebGLRenderingContext) : void {
     if (!gl) {
         console.error("Failed to get WebGL context/Might not be supported");
         return;
     }
 
-    //gl?.clearColor(0.5,0.2,0.1,1.);
-    //gl?.clear(gl.COLOR_BUFFER_BIT);
-
     //Shader creation
-    const vertexshader = CreateShader(gl, gl.VERTEX_SHADER, default_vertex_shader);
-    const fragmentshader = CreateShader(gl, gl.FRAGMENT_SHADER, default_fragment_shader);
+    const vertexshader = CreateShader(gl, gl.VERTEX_SHADER, UVtest_Vshader);
+    const fragmentshader = CreateShader(gl, gl.FRAGMENT_SHADER, UVtest_Fshader);
     if (!vertexshader || !fragmentshader) {
         console.error("Failed to create shader exiting Renderer function...");
         return;
@@ -27,6 +27,9 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     //Supplying the data to the GLSL shader program
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram,"a_position");
+    const resolutionUniformLocation = gl.getUniformLocation(shaderProgram,"u_resolution");
+
+
     //Buffer creation
     const positionBuffer = gl.createBuffer();
     //Binding the buffer to the GLSL shader program
@@ -34,23 +37,18 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     //Three 2d points (x,y)
     var positions = [
-        //First Triangle
-        0, 0,           //clip space (screen space/canvas would be 400,300)
-        0, 0.5,         //clip space (screen space/canvas would be 400,450)
-        0.7, 0,         //clip space (screen space/canvas would be 400,510)
+        600, 450,
+        600, 150,
+        200, 450,
 
-        //Second Triangle
-        -0.5, -0.6,
-        -0.7, -0.1,
-        -0.2, -0.3,
+        200, 150,
+        200, 440,
+        590, 150,
     ];
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
     
     //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
     gl.viewport(0,0,gl.canvas.width,gl.canvas.height);
-
-    //gl?.clearColor(0.0,0.2,0.0,.5);
-    //gl?.clear(gl.COLOR_BUFFER_BIT);
 
     gl.useProgram(shaderProgram);
 
@@ -58,6 +56,8 @@ function Renderer(gl: WebGLRenderingContext) : void {
 
     // Bind the position buffer.
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
     var size = 2;          // 2 components per iteration
