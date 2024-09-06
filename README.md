@@ -80,6 +80,8 @@ I will list what I used, just incase for anyone wondering what I used/platform c
   - [freecodecamp/learn-js&ts](https://www.freecodecamp.org/learn/) I have seen this as popularly suggested as the above resource!
   - [typescriptlang.org-ts](https://www.typescriptlang.org/docs/) a very good website for typescript related docs & learning ts in general!
   - [theodinproject-js](https://www.theodinproject.com/) popular suggestions I have seen multiple times about learning javascript!
+- Hosting Notes (Ignore):
+  - Was looking into hosting services and found this, its a nice website! > https://wheretohostmy.app/free-tier-comparison
 
 # Learning Notes
 ## Part 1 - Hello WebGL!
