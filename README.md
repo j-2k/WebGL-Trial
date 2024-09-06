@@ -21,7 +21,7 @@ Additionally, I will learn a few JS/TS concepts over making a simple WebGL proje
 1. Enter the correct directory WebGL-Trial/webgl-main
 2. Install dependencies using ```npm i``` in your terminal
 3. Run & start the project using ```npm run dev``` in terminal again
-4. The website should automatically open on localhost:5173! (Check the terminal incase its a different port! If it is taken Vite will automatically try the next available port.)
+4. The website should automatically open on ```localhost:5173```! (Check the terminal incase its a different port! If it is taken Vite will automatically try the next available port.)
 
 # My Platform, Versioning, & Dev environment
 I will list what I used, just incase for anyone wondering what I used/platform choice to make this project.
@@ -80,3 +80,8 @@ I will list what I used, just incase for anyone wondering what I used/platform c
   - [freecodecamp/learn-js&ts](https://www.freecodecamp.org/learn/) I have seen this as popularly suggested as the above resource!
   - [typescriptlang.org-ts](https://www.typescriptlang.org/docs/) a very good website for typescript related docs & learning ts in general!
   - [theodinproject-js](https://www.theodinproject.com/) popular suggestions I have seen multiple times about learning javascript!
+
+# Learning Notes
+## Part 1 - Hello WebGL!
+- Desc
+- Img
