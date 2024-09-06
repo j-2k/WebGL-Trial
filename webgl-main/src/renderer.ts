@@ -1,7 +1,7 @@
 import { CreateMaterial } from "./render-utils";
 
-import default_vertex_shader from "./shaders-glsl/defaultshader/vertexshader.glsl?raw";
-import default_fragment_shader from "./shaders-glsl/defaultshader/fragmentshader.glsl?raw";
+//import default_vertex_shader from "./shaders-glsl/defaultshader/vertexshader.glsl?raw";
+//import default_fragment_shader from "./shaders-glsl/defaultshader/fragmentshader.glsl?raw";
 
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";

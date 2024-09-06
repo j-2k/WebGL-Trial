@@ -82,6 +82,7 @@ I will list what I used, just incase for anyone wondering what I used/platform c
   - [theodinproject-js](https://www.theodinproject.com/) popular suggestions I have seen multiple times about learning javascript!
 - Hosting Notes (Ignore):
   - Was looking into hosting services and found this, its a nice website! > https://wheretohostmy.app/free-tier-comparison
+  - Used Netlify and it was really fast to setup. Just drag & drop the built project dist files into the host service & thats it! You can get the dist file by doing ```npm run build``` and the dist file will be created.
 
 # Learning Notes
 ## Part 1 - Hello WebGL!
