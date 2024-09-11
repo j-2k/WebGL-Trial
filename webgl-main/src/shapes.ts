@@ -26,12 +26,46 @@ function DrawRectangle(gl: WebGLRenderingContext, x1: number, y1: number, width:
         gl.uniform4f(colorUniformPointer, RandomFloat(0,1), RandomFloat(0,1), RandomFloat(0,1), 1);
     }
 
+    /*
     var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 6;
-    gl.drawArrays(primitiveType, offset, count);
+        var offset = 0;
+        var count = 6;
+        gl.drawArrays(primitiveType, offset, count);
+    */
+}
+
+function DrawGeometry(gl: WebGLRenderingContext) {
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array([
+                // left column
+                0, 0,
+                30, 0,
+                0, 150,
+                0, 150,
+                30, 0,
+                30, 150,
+       
+                // top rung
+                30, 0,
+                100, 0,
+                30, 30,
+                30, 30,
+                100, 0,
+                100, 30,
+       
+                // middle rung
+                30, 60,
+                67, 60,
+                30, 90,
+                30, 90,
+                67, 60,
+                67, 90,
+            ]),
+            gl.STATIC_DRAW);
 }
 
 export {
     DrawRectangle,
+    DrawGeometry
 }

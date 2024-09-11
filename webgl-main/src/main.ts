@@ -3,7 +3,7 @@ helloWorld();
 
 import { initializeCanvas } from "./canvas"
 import { StartMessages } from "./messages";
-import { Renderer } from "./renderer"
+import { InitializeRenderer } from "./renderer"
 
 function main() {
     const canvasId = 'webglCanvas';
@@ -16,9 +16,9 @@ function main() {
         return; // Early return if gl is null
     }
 
-    // WebGL is available, proceed with initialization and rendering
+    console.log("WebGL is available, proceed with initialization and rendering");
     StartMessages(canvasId);
-    Renderer(gl);
+    InitializeRenderer(gl);
 }
 
 // Call the main function to start the application
