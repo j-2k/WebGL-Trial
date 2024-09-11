@@ -44,11 +44,11 @@ function CreateControlsMenu(canvasId: string): void {
     controls.id = 'controls';
 
     const controlsData = [
-        { label: 'Translation', id: 'RangeT' },
+        { label: 'Translation X', id: 'RangeTX' },
+        { label: 'Translation Y', id: 'RangeTY' },
         { label: 'Rotation', id: 'RangeR' },
         { label: 'Scale', id: 'RangeS' },
-        { label: 'Color', id: 'RangeC' },
-        { label: 'X', id: 'RangeX' }
+        { label: 'Color', id: 'RangeC' }
     ];
 
     controlsData.forEach(control => {
@@ -58,8 +58,8 @@ function CreateControlsMenu(canvasId: string): void {
 
         const input = document.createElement('input');
         input.type = 'range';
-        input.min = '1';
-        input.max = '100';
+        input.min = '0';
+        input.max = '800';
         input.value = '50';
         input.className = 'slider';
         input.id = control.id;
