@@ -76,16 +76,22 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
         gl.uniform4fv(colorUniformLocation, color);
 
+        //Offset the pivot to the center of the object
+        var moveOriginMatrix = m3.translation(-50, -75);
 
+        //Make the projection matrix
+        let projectionMatrix = m3.projection(
+            gl.canvas.width, gl.canvas.height);
 
-        // Compute the matrices
-        let translationMatrix = m3.translation(translation[0], translation[1]);
-        let rotationMatrix = m3.rotation(angleInRadians);
-        let scaleMatrix = m3.scaling(scale[0], scale[1]);
-
-        // Multiply the matrices.
-        let matrix = m3.multiply(translationMatrix, rotationMatrix);
-        matrix = m3.multiply(matrix, scaleMatrix);
+        //Read this from bottom to top, or right to left for easier understanding
+        //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
+        let matrix = m3.projection(gl.canvas.width, gl.canvas.height);
+        matrix = m3.translate(matrix, translation[0], translation[1]);
+        matrix = m3.rotate(matrix, angleInRadians);
+        matrix = m3.scale(matrix, scale[0], scale[1]);
+        matrix = m3.multiply(matrix, moveOriginMatrix);
+        
+        //Scroll to the gifs shown on https://webglfundamentals.org/webgl/lessons/webgl-2d-matrices.html to see a better visual of matrix transformations
 
         gl.uniformMatrix3fv(matrixLocation, false, matrix);
 

@@ -4,8 +4,8 @@ uniform vec2 u_resolution;
 uniform mat3 u_matrix;
 
 void main() {
+  /*
   //clip space was from -1 to 1 with only gl_Position = a_position; (a pos is vec4 previously)
-
   //apply/multiply the matrix to the position
   vec2 position = (u_matrix * vec3(a_position, 1)).xy;
 
@@ -21,4 +21,10 @@ void main() {
   clipSpace *= vec2(1.0, -1.0);
 
   gl_Position = vec4(clipSpace, 0.0,1.0);
+
+  all above is the old way of doing it it has been changed to the 1 liner below with the addition of the projection matrix!
+  gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
+  */
+
+  gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
 }
