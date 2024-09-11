@@ -2,7 +2,7 @@ import helloWorld from "./hello";
 helloWorld();
 
 import { initializeCanvas } from "./canvas"
-import { StartMessages } from "./messages";
+import { StartMessages, CreateControlsMenu } from "./messages";
 import { InitializeRenderer } from "./renderer"
 
 function main() {
@@ -18,6 +18,7 @@ function main() {
 
     console.log("WebGL is available, proceed with initialization and rendering");
     StartMessages(canvasId);
+    CreateControlsMenu(canvasId);
     InitializeRenderer(gl);
 }
 

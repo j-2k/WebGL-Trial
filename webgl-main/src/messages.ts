@@ -2,6 +2,7 @@ function StartMessages(canvasId: string): void {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) {
         console.error(`Canvas with id '${canvasId}' not found`);
+        return;
     }
 
     // Create a new text element (e.g., a paragraph)
@@ -32,6 +33,43 @@ function StartMessages(canvasId: string): void {
     return;
 }
 
+function CreateControlsMenu(canvasId: string): void {
+    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+    if (!canvas) {
+        console.error(`Canvas with id '${canvasId}' not found`);
+        return;
+    }
+
+    const controls = document.createElement('div');
+    controls.id = 'controls';
+
+    const controlsData = [
+        { label: 'Translation', id: 'RangeT' },
+        { label: 'Rotation', id: 'RangeR' },
+        { label: 'Scale', id: 'RangeS' },
+        { label: 'Color', id: 'RangeC' },
+        { label: 'X', id: 'RangeX' }
+    ];
+
+    controlsData.forEach(control => {
+        const p = document.createElement('p');
+        p.textContent = control.label;
+        controls.appendChild(p);
+
+        const input = document.createElement('input');
+        input.type = 'range';
+        input.min = '1';
+        input.max = '100';
+        input.value = '50';
+        input.className = 'slider';
+        input.id = control.id;
+        controls.appendChild(input);
+    });
+
+    document.body.insertBefore(controls, canvas);
+}
+
 export {
     StartMessages,
+    CreateControlsMenu
 }
