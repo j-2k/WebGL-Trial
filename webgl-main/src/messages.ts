@@ -44,6 +44,7 @@ function CreateControlsMenu(canvasId: string): void {
     controls.id = 'controls';
 
     const controlsData = [
+        { label: 'Fudge Factor', id: 'FudgeFactor' },
         { label: 'Translation X', id: 'RangeTX' },
         { label: 'Translation Y', id: 'RangeTY' },
         { label: 'Translation Z', id: 'RangeTZ' },

@@ -27,6 +27,10 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
     const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
+    const fudgeFactorLocation = gl.getUniformLocation(shaderProgram, "u_fudgeFactor");
+
+    // Set the fudge factor to 1.0
+    let fudgeFactorAmount = 1;
 
     // Create a buffer to put positions in
     var positionBuffer = gl.createBuffer();
@@ -40,14 +44,28 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     // Put the colors in the buffer.
     SetColorsOfF3D(gl);
 
-    //Culling section
-    gl.enable(gl.CULL_FACE);
-    gl.cullFace(gl.BACK);
-    gl.frontFace(gl.CCW);
 
-    //Depth testing section
-    //gl.enable(gl.DEPTH_TEST);
-    //gl.depthFunc(gl.LEQUAL);
+    {// Nice to see WebGL do all the work, compared to the Software Rasterizer I did where this had to be done manually
+        //Culling section
+        gl.enable(gl.CULL_FACE);
+        gl.cullFace(gl.BACK);
+        gl.frontFace(gl.CCW);
+        //Explanation of what is going in inside culling
+        //Good explanation here > https://learnopengl.com/Advanced-OpenGL/Face-culling
+        //The theory is that depending on the winding the triangle is made in CCW or CW, 
+        //the normal that is created from that triangle will be put in a dot product with the camera's view direction (mathf.dot(normal, viewDirection)), 
+        //if the dot product is negative, then that means the normal is facing away from the camera, and thus the triangle is not visible so it is culled else show!
+        //Thinking of the theory helped me understand it a lot more!
+
+        //Test the Depth Buffer
+        gl.enable(gl.DEPTH_TEST);
+        gl.depthFunc(gl.LEQUAL);
+        //Explanation of what is going in inside depth testing
+        //Good Explanation here > https://learnopengl.com/Advanced-OpenGL/Depth-testing
+        //Depth testing works by comparing the depth value of the fragment with the depth value in the depth buffer.
+        //If the comparison is true based on the depth function chosen, for example LEQUAL, then update the color buffer & the depth buffer.
+        //Look at the Z Buffer algorithim to see how this works, other algorithms such as Painters algorithim & Scan Line Rendering can help you understand why depth testing is necessary
+    }
 
     let objectF: GameObjectTransforms = {
         translation: [400, 300, 0],
@@ -65,7 +83,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-        gl.clear(gl.COLOR_BUFFER_BIT);
+        //Now clearing both color & depth buffer
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         //Tell WebGL to use the shader program with the final material we made above!
         gl.useProgram(shaderProgram);
 
@@ -107,6 +126,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         {
             gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
             gl.uniform4fv(colorUniformLocation, Transform.color);
+
         }
 
         let matrix;
@@ -116,7 +136,16 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
             //Read this from bottom to top, or right to left for easier understanding
             //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
-            matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
+            //matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
+            {
+                var left = 0;
+                var right = gl.canvas.width;
+                var bottom = gl.canvas.height;
+                var top = 0;
+                var near = 400;
+                var far = -400;
+                matrix = m4.orthographic(left, right, bottom, top, near, far);
+            }
             matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
             matrix = m4.xRotate(matrix, Transform.rotation[0]);
             matrix = m4.yRotate(matrix, Transform.rotation[1]);
@@ -142,10 +171,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 matrix = m4.yRotate(matrix, 40);
                 gl.uniformMatrix4fv(matrixLocation, false, matrix);
             }
-
-            
-
         }
+
+        gl.uniform1f(fudgeFactorLocation, fudgeFactorAmount);
 
         {
             // Draw the geometry.
@@ -158,7 +186,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
             //Event listeners for the sliders
-    const sliders = ['RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
+    const sliders = ['FudgeFactor','RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
     sliders.forEach(sliderId => {
         const slider = document.getElementById(sliderId) as HTMLInputElement;
         if (slider) {
@@ -171,6 +199,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     function handleSliderChange(sliderId: string, value: number, maxSliderValue: number, GameObjectTransform: GameObjectTransforms) {
         const nValue = value / maxSliderValue;
         switch (sliderId) {
+            case 'FudgeFactor':
+                fudgeFactorAmount = nValue*5;
+                break;
             case 'RangeTX':
                 // Handle X change
                 GameObjectTransform.translation[0] = value;
