@@ -67,3 +67,7 @@ canvas {
   align-items: center;
   justify-content: center;
 }
+
+#controls p {
+  margin-bottom: 0px;
+}

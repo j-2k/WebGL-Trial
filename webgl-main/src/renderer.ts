@@ -6,8 +6,8 @@ import { CreateMaterial } from "./render-utils";
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
-import { DrawRectangle, DrawGeometry } from "./shapes";
-import { RandomFloat, m3 } from "./custom-math-utils";
+import { DrawGeometry } from "./shapes";
+import { RandomFloat, m4 } from "./custom-math-utils";
 
 
 
@@ -34,9 +34,10 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    var translation = [400, 300];
-    var angleInRadians = 3.14 * 0;
-    var scale = [1, 1];
+    var translation = [400, 300, 0];
+    //var angleInRadians = 3.14 * 0;
+    var rotation = [0, 0, 0];
+    var scale = [1, 1, 1];
     var color = [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1];
 
     Renderer(gl);
@@ -63,13 +64,13 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
         // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-        let size = 2;          // 2 components per iteration
+        let size = 3;          // 3 components per iteration
         let type = gl.FLOAT;   // the data is 32bit floats
         let normalize = false; // don't normalize the data
         let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
         let offset = 0;        // start at the beginning of the buffer
         gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
-
+        
         DrawGeometry(gl);
 
         //Draw section!
@@ -77,23 +78,22 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         gl.uniform4fv(colorUniformLocation, color);
 
         //Offset the pivot to the center of the object
-        var moveOriginMatrix = m3.translation(-50, -75);
-
-        //Make the projection matrix
-        let projectionMatrix = m3.projection(
-            gl.canvas.width, gl.canvas.height);
+        var moveOriginMatrix = m4.translation(-50, -75, 0);
 
         //Read this from bottom to top, or right to left for easier understanding
         //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
-        let matrix = m3.projection(gl.canvas.width, gl.canvas.height);
-        matrix = m3.translate(matrix, translation[0], translation[1]);
-        matrix = m3.rotate(matrix, angleInRadians);
-        matrix = m3.scale(matrix, scale[0], scale[1]);
-        matrix = m3.multiply(matrix, moveOriginMatrix);
+        let matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
+        matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
+        matrix = m4.xRotate(matrix, rotation[0]);
+        matrix = m4.yRotate(matrix, rotation[1]);
+        matrix = m4.zRotate(matrix, rotation[2]);
+        matrix = m4.scale(matrix, scale[0], scale[1], scale[2]);
+        matrix = m4.multiply(matrix, moveOriginMatrix);
+        
         
         //Scroll to the gifs shown on https://webglfundamentals.org/webgl/lessons/webgl-2d-matrices.html to see a better visual of matrix transformations
 
-        gl.uniformMatrix3fv(matrixLocation, false, matrix);
+        gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
         gl.drawArrays(gl.TRIANGLES, 0, 18);
 
@@ -101,42 +101,56 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     function UpdateSliderValues() {
             //Event listeners for the sliders
-    const sliders = ['RangeTX', 'RangeTY', 'RangeR', 'RangeS', 'RangeC'];
+    const sliders = ['RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
     sliders.forEach(sliderId => {
         const slider = document.getElementById(sliderId) as HTMLInputElement;
         if (slider) {
             slider.addEventListener('input', () => {
-                handleSliderChange(sliderId, parseFloat(slider.value));
+                handleSliderChange(sliderId, parseFloat(slider.value),parseFloat(slider.max));
             });
         }
     });
 
-    function handleSliderChange(sliderId: string, value: number) {
+    function handleSliderChange(sliderId: string, value: number, maxSliderValue: number) {
+        const nValue = value / maxSliderValue;
         switch (sliderId) {
             case 'RangeTX':
                 // Handle X change
-                translation[0] = value;
-
+                translation[0] = value - 100;
                 break;
             case 'RangeTY':
                 // Handle translation change
-                translation[1] = value;
-
+                translation[1] = value - 100;
                 break;
-            case 'RangeR':
+            case 'RangeTZ':
+                // Handle translation change
+                translation[2] = value - 100;
+                break;
+            case 'RangeRX':
                 // Handle rotation change
-                angleInRadians = value * Math.PI / 50; // Convert to radians
-
+                //rotation[0] = value * Math.PI / 50; // old Convert to radians
+                rotation[0] = nValue * (Math.PI*2); //Already in radians
+                break;
+            case 'RangeRY':
+                // Handle rotation change
+                //rotation[1] = value * Math.PI / 50; // old Convert to radians
+                rotation[1] = nValue * (Math.PI*2); //Already in radians
+                break;
+            case 'RangeRZ':
+                // Handle rotation change
+                //rotation[2] = value * Math.PI / 50; // old Convert to radians
+                rotation[2] = nValue * (Math.PI*2); //Already in radians
                 break;
             case 'RangeS':
                 // Handle scale change
-                scale = [value / 50, value / 50]; // Adjust scale factor as needed
-
+                const maxScale = (nValue*2-1) * 2;
+                scale = [maxScale,maxScale,maxScale]; // Adjust scale factor as needed
                 break;
             case 'RangeC':
                 // Handle color change
-                color = [value / 100, color[1], color[2], 1];
-
+                const nPI = nValue * Math.PI;
+                // triangle formation  //2pi/3 = 2.094   //4pi/3 = 4.188
+                color = [Math.sin(nPI)*0.5+0.5, Math.sin(nPI+2.094)*0.5+0.5, Math.sin(nPI+4.188)*0.5+0.5, 1];
                 break;
         }
         Renderer(gl);

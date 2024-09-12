@@ -46,7 +46,10 @@ function CreateControlsMenu(canvasId: string): void {
     const controlsData = [
         { label: 'Translation X', id: 'RangeTX' },
         { label: 'Translation Y', id: 'RangeTY' },
-        { label: 'Rotation', id: 'RangeR' },
+        { label: 'Translation Z', id: 'RangeTZ' },
+        { label: 'Rotation X', id: 'RangeRX' },
+        { label: 'Rotation Y', id: 'RangeRY' },
+        { label: 'Rotation Z', id: 'RangeRZ' },
         { label: 'Scale', id: 'RangeS' },
         { label: 'Color', id: 'RangeC' }
     ];

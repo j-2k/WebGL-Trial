@@ -35,34 +35,33 @@ function DrawRectangle(gl: WebGLRenderingContext, x1: number, y1: number, width:
 }
 
 function DrawGeometry(gl: WebGLRenderingContext) {
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
-            new Float32Array([
-                // left column
-                0, 0,
-                30, 0,
-                0, 150,
-                0, 150,
-                30, 0,
-                30, 150,
-       
-                // top rung
-                30, 0,
-                100, 0,
-                30, 30,
-                30, 30,
-                100, 0,
-                100, 30,
-       
-                // middle rung
-                30, 60,
-                67, 60,
-                30, 90,
-                30, 90,
-                67, 60,
-                67, 90,
-            ]),
-            gl.STATIC_DRAW);
+    gl.bufferData(
+     gl.ARRAY_BUFFER,
+     new Float32Array([
+         // left column
+           0,   0,  0,
+          30,   0,  0,
+           0, 150,  0,
+           0, 150,  0,
+          30,   0,  0,
+          30, 150,  0,
+
+         // top rung
+          30,   0,  0,
+         100,   0,  0,
+          30,  30,  0,
+          30,  30,  0,
+         100,   0,  0,
+         100,  30,  0,
+
+         // middle rung
+          30,  60,  0,
+          67,  60,  0,
+          30,  90,  0,
+          30,  90,  0,
+          67,  60,  0,
+          67,  90,  0]),
+     gl.STATIC_DRAW);
 }
 
 export {
