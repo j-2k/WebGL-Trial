@@ -8,8 +8,7 @@ import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw"
 
 import { DrawGeometry } from "./shapes";
 import { RandomFloat, m4 } from "./custom-math-utils";
-
-
+import { GameObjectTransforms } from "./engineobjects";
 
 function InitializeRenderer(gl: WebGLRenderingContext): void {
     //Making a shaderprogram that webgl will use.
@@ -34,17 +33,18 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    var translation = [400, 300, 0];
-    //var angleInRadians = 3.14 * 0;
-    var rotation = [0, 0, 0];
-    var scale = [1, 1, 1];
-    var color = [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1];
+    let objectF: GameObjectTransforms = {
+        translation: [400, 300, 0],
+        rotation: [0, 0, 0],
+        scale: [1, 1, 1],
+        color: [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1]
+    }
 
-    Renderer(gl);
+    Renderer(gl, objectF);
 
-    UpdateSliderValues();
+    UpdateSliderValues(objectF);
 
-    function Renderer(gl: WebGLRenderingContext): void {
+    function Renderer(gl: WebGLRenderingContext, Transform : GameObjectTransforms): void {
 
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
@@ -75,7 +75,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
         //Draw section!
         gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-        gl.uniform4fv(colorUniformLocation, color);
+        gl.uniform4fv(colorUniformLocation, Transform.color);
 
         //Offset the pivot to the center of the object
         var moveOriginMatrix = m4.translation(-50, -75, 0);
@@ -83,11 +83,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         //Read this from bottom to top, or right to left for easier understanding
         //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
         let matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
-        matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
-        matrix = m4.xRotate(matrix, rotation[0]);
-        matrix = m4.yRotate(matrix, rotation[1]);
-        matrix = m4.zRotate(matrix, rotation[2]);
-        matrix = m4.scale(matrix, scale[0], scale[1], scale[2]);
+        matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
+        matrix = m4.xRotate(matrix, Transform.rotation[0]);
+        matrix = m4.yRotate(matrix, Transform.rotation[1]);
+        matrix = m4.zRotate(matrix, Transform.rotation[2]);
+        matrix = m4.scale(matrix, Transform.scale[0], Transform.scale[1], Transform.scale[2]);
         matrix = m4.multiply(matrix, moveOriginMatrix);
         
         
@@ -99,61 +99,61 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     }
 
-    function UpdateSliderValues() {
+    function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
             //Event listeners for the sliders
     const sliders = ['RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
     sliders.forEach(sliderId => {
         const slider = document.getElementById(sliderId) as HTMLInputElement;
         if (slider) {
             slider.addEventListener('input', () => {
-                handleSliderChange(sliderId, parseFloat(slider.value),parseFloat(slider.max));
+                handleSliderChange(sliderId, parseFloat(slider.value),parseFloat(slider.max), GameObjectTransform);
             });
         }
     });
 
-    function handleSliderChange(sliderId: string, value: number, maxSliderValue: number) {
+    function handleSliderChange(sliderId: string, value: number, maxSliderValue: number, GameObjectTransform: GameObjectTransforms) {
         const nValue = value / maxSliderValue;
         switch (sliderId) {
             case 'RangeTX':
                 // Handle X change
-                translation[0] = value - 100;
+                GameObjectTransform.translation[0] = value - 100;
                 break;
             case 'RangeTY':
                 // Handle translation change
-                translation[1] = value - 100;
+                GameObjectTransform.translation[1] = value - 100;
                 break;
             case 'RangeTZ':
                 // Handle translation change
-                translation[2] = value - 100;
+                GameObjectTransform.translation[2] = value - 100;
                 break;
             case 'RangeRX':
                 // Handle rotation change
                 //rotation[0] = value * Math.PI / 50; // old Convert to radians
-                rotation[0] = nValue * (Math.PI*2); //Already in radians
+                GameObjectTransform.rotation[0] = nValue * (Math.PI*2); //Already in radians
                 break;
             case 'RangeRY':
                 // Handle rotation change
                 //rotation[1] = value * Math.PI / 50; // old Convert to radians
-                rotation[1] = nValue * (Math.PI*2); //Already in radians
+                GameObjectTransform.rotation[1] = nValue * (Math.PI*2); //Already in radians
                 break;
             case 'RangeRZ':
                 // Handle rotation change
                 //rotation[2] = value * Math.PI / 50; // old Convert to radians
-                rotation[2] = nValue * (Math.PI*2); //Already in radians
+                GameObjectTransform.rotation[2] = nValue * (Math.PI*2); //Already in radians
                 break;
             case 'RangeS':
                 // Handle scale change
                 const maxScale = (nValue*2-1) * 2;
-                scale = [maxScale,maxScale,maxScale]; // Adjust scale factor as needed
+                GameObjectTransform.scale = [maxScale,maxScale,maxScale]; // Adjust scale factor as needed
                 break;
             case 'RangeC':
                 // Handle color change
                 const nPI = nValue * Math.PI;
                 // triangle formation  //2pi/3 = 2.094   //4pi/3 = 4.188
-                color = [Math.sin(nPI)*0.5+0.5, Math.sin(nPI+2.094)*0.5+0.5, Math.sin(nPI+4.188)*0.5+0.5, 1];
+                GameObjectTransform.color = [Math.sin(nPI)*0.5+0.5, Math.sin(nPI+2.094)*0.5+0.5, Math.sin(nPI+4.188)*0.5+0.5, 1];
                 break;
         }
-        Renderer(gl);
+        Renderer(gl, GameObjectTransform);
     }
 }
 }
