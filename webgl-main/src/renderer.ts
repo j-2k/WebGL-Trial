@@ -6,7 +6,7 @@ import { CreateMaterial } from "./render-utils";
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
-import { DrawF3D, SetColorsOfF3D } from "./shapes";
+import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D } from "./shapes";
 import { RandomFloat, m4 } from "./custom-math-utils";
 import { GameObjectTransforms } from "./engineobjects";
 
@@ -39,6 +39,15 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     // Put the colors in the buffer.
     SetColorsOfF3D(gl);
+
+    //Culling section
+    gl.enable(gl.CULL_FACE);
+    gl.cullFace(gl.BACK);
+    gl.frontFace(gl.CCW);
+
+    //Depth testing section
+    //gl.enable(gl.DEPTH_TEST);
+    //gl.depthFunc(gl.LEQUAL);
 
     let objectF: GameObjectTransforms = {
         translation: [400, 300, 0],
@@ -96,22 +105,18 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         }
 
         {
-            //Draw section!
-            DrawF3D(gl);
-        }
-
-        {
             gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
             gl.uniform4fv(colorUniformLocation, Transform.color);
         }
 
+        let matrix;
         {
             //Offset the pivot to the center of the object
             var moveOriginMatrix = m4.translation(-50, -75, 0);
 
             //Read this from bottom to top, or right to left for easier understanding
             //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
-            let matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
+            matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
             matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
             matrix = m4.xRotate(matrix, Transform.rotation[0]);
             matrix = m4.yRotate(matrix, Transform.rotation[1]);
@@ -124,11 +129,30 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         }
 
         {
+            //Draw section!
+            //Check the culling section above to see how to cull the triangles, you can set the instructions to cull front or back faces and set the order of the triangles verts with gl.frontFace(gl.CCW);
+            //RED IS THE FRONT FACE OF THE F WHILE THE PURPLE IS THE BACK
+            
+            const isCorrectWinding = true; // change this to see results of different winding direction
+            if(isCorrectWinding){
+                DrawF3DCCW(gl); //CCW TRIANGLES CULLING BACKFACE! 
+            }
+            else{
+                DrawF3DCW(gl); //IF THIS IS INVISIBLE THEN THE FACES ARE CULLING CORRECTLY! CW TRIANGLES ON THE F TRY TO ROT Y AND SEE THEM CULL FRONT FACING TRIS!
+                matrix = m4.yRotate(matrix, 40);
+                gl.uniformMatrix4fv(matrixLocation, false, matrix);
+            }
+
+            
+
+        }
+
+        {
             // Draw the geometry.
             var primitiveType = gl.TRIANGLES;
-            var dOffset = 0;
+            var offset = 0;
             var count = 16 * 6;
-            gl.drawArrays(primitiveType, dOffset, count);
+            gl.drawArrays(primitiveType, offset, count);
         }
     }
 
