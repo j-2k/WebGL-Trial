@@ -1,7 +1,7 @@
 # ~~OpenGL_Trials_1~~ 
 ~~the first opengl project, it's time to do some proper graphics (Vulkan later).~~
 
-# WebGL Trial Instead
+# Learning WebGL
 Additionally, I will learn a few JS/TS concepts over making a simple WebGL project, & important concepts below.
 1. Stencil JS Project
 2. Web Components API
