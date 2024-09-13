@@ -1,5 +1,46 @@
 import { RandomFloat } from "./custom-math-utils";
 
+function Draw2DTriangle(gl: WebGLRenderingContext, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) : void {
+    const positions = [
+        x1, y1,
+        x2, y2,
+        x3, y3,
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+    /* Lerped RGB Triangle Color Guide, not copy pastable I dont think, so make sure you use these chunks of code in the right order
+      { 
+        //First make sure your  vertex & fragment shaders are setup correctly.
+        //Have the 2 variables in the vertex shader > attribute vec4 a_color; & varying vec4 v_color;
+        //Pass the color to the fragment shader by doing v_color = a_color; in the vertex shader.
+        //Make a varying color variable & return it > varying vec4 v_color; in the fragment shader.
+
+        // Create and bind the color buffer
+        const colorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+
+        // Turn on the color attribute
+        const colorAttributeLocation = gl.getAttribLocation(shaderProgram, "a_color");
+        gl.enableVertexAttribArray(colorAttributeLocation);
+
+        // Bind the color buffer.
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+
+        // Define colors for each vertex (R, G, B)
+        const colors = [
+          1, 0, 0,  // Red (top vertex)
+          0, 1, 0,  // Green (bottom-left vertex)
+          0, 0, 1   // Blue (bottom-right vertex)
+        ];
+        //Drawing the colors to the screen
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+
+        // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
+        gl.vertexAttribPointer(colorAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+      }
+    */
+}
+
 function DrawRectangle(gl: WebGLRenderingContext, x1: number, y1: number, width: number, height: number,colorUniformPointer: WebGLUniformLocation | null, 
     index : number = 1, maxIndex : number = 10, isRandomColor : boolean = true) : void {
     const x2 = x1 + width;
