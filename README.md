@@ -83,8 +83,23 @@ I will list what I used, just incase for anyone wondering what I used/platform c
 - Hosting Notes (Ignore):
   - Was looking into hosting services and found this, its a nice website! > https://wheretohostmy.app/free-tier-comparison
   - Used Netlify and it was really fast to setup. Just drag & drop the built project dist files into the host service & thats it! You can get the dist file by doing ```npm run build``` and the dist file will be created.
+ 
+# Graphics Rendering Pipeline Process
+Very important, I will write this out once I fully/almost understand everything in the pipeline.
 
 # Learning Notes
 ## Part 1 - Hello WebGL!
-- Desc
-- Img
+![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
+
+## 2
+![Rectangles (2x Triangles)](webgl-main/img-progress/2-2DRectangles.png)
+
+## 3
+![2D Matrices & Orthographic](webgl-main/img-progress/3-F2D.png)
+
+## 4
+![3D Matrices & Prespective](webgl-main/img-progress/4-F3D.png)
+
+## 5
+
+## 6
