@@ -88,13 +88,15 @@ I will list what I used, just incase for anyone wondering what I used/platform c
 Very important, I will write this out once I fully/almost understand everything in the pipeline.
 
 # Learning Notes
+Showcasing what I went through whilst learning WebGL!
+
 ## Part 1 - Hello WebGL!
 ![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
 
-## 2
+## Part 2 - Multiple Rectangles with double Triangles
 ![Rectangles (2x Triangles)](webgl-main/img-progress/2-2DRectangles.png)
 
-## 3
+## Part 2 - Math Overhaul using 2D Matricies + Orthographic Projection
 ![2D Matrices & Orthographic](webgl-main/img-progress/3-F2D.png)
 
 ## 4
