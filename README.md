@@ -99,7 +99,7 @@ Showcasing what I went through whilst learning WebGL!
 ## Part 2 - Math Overhaul using 2D Matricies + Orthographic Projection
 ![2D Matrices & Orthographic](webgl-main/img-progress/3-F2D.png)
 
-## 4
+## Part 3 - 3D Matrices + Prespective Projection + Depth Buffer + Backface Culling/Triangle Order
 ![3D Matrices & Prespective](webgl-main/img-progress/4-F3D.png)
 
 ## 5
