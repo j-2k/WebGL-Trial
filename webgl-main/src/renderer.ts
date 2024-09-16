@@ -164,6 +164,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.uniformMatrix4fv(matrixLocation, false, matrix);
         }
 
+
+
+
         {
             //Draw section!
             //Check the culling section above to see how to cull the triangles, you can set the instructions to cull front or back faces and set the order of the triangles verts with gl.frontFace(gl.CCW);
@@ -179,6 +182,38 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 gl.uniformMatrix4fv(matrixLocation, false, matrix);
             }
         }
+
+        var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
+        
+        var numFs = 5;
+        var radius = 200;
+        // Compute a matrix for the camera
+        var cameraMatrix = m4.yRotation(Math.PI);
+        cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
+        // Make a view matrix from the camera matrix.
+        var viewMatrix = m4.inverse(cameraMatrix);
+        // Compute a view projection matrix
+        var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+
+        for (var ii = 0; ii < numFs; ++ii) {
+            var angle = ii * Math.PI * 2 / numFs;
+            var x = Math.cos(angle) * radius;
+            var y = Math.sin(angle) * radius;
+      
+            // starting with the view projection matrix
+            // compute a matrix for the F
+            var matrix2 = m4.translate(viewProjectionMatrix, x, 0, y);
+      
+            gl.uniformMatrix4fv(matrixLocation, false, matrix2);
+      
+            // Draw the geometry.
+            var primitiveType = gl.TRIANGLES;
+            var offset = 0;
+            var count = 16 * 6;
+            gl.drawArrays(primitiveType, offset, count);
+          
+        }
+        return;
 
         {
             // Draw the geometry.
