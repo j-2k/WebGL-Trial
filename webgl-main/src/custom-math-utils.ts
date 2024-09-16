@@ -65,6 +65,7 @@ let m4 = {
   //https://webglfundamentals.org/webgl/lessons/webgl-3d-perspective.html
   //This is the same as dividing by z to get the perspective correct
   //Now we are putting it in W which should be the same as dividing by z
+  /*
   makeZToWMatrix: function(fudgeFactor: number) {
     return [
       1, 0, 0, 0,
@@ -73,6 +74,7 @@ let m4 = {
       0, 0, 0, 1,
     ];
   },
+  */
 
   orthographic: function(left: number, right: number, bottom: number, top: number, near: number, far: number) {
     return [

@@ -5,7 +5,7 @@ attribute vec4 a_color;
 uniform mat4 u_matrix;
 varying vec4 v_color;
 
-uniform float u_fudgeFactor;
+//uniform float u_fudgeFactor;
 
 void main() {
   /*

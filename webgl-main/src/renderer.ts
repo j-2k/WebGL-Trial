@@ -27,10 +27,6 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
     const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
-    const fudgeFactorLocation = gl.getUniformLocation(shaderProgram, "u_fudgeFactor");
-
-    // Set the fudge factor to 1.0
-    let fudgeFactorAmount = 1;
 
     // Create a buffer to put positions in
     var positionBuffer = gl.createBuffer();
@@ -69,10 +65,15 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     let objectF: GameObjectTransforms = {
         translation: [0, 0, -200],
-        rotation: [0, 0, Math.PI],
+        rotation: [0, Math.PI, Math.PI],
         scale: [1, 1, 1],
         color: [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1]
     }
+
+    var fieldOfViewRadians = 90 * Math.PI/180; //Fov takes degrees and converts to radians
+    var aspect = gl.canvas.width / gl.canvas.height;
+    var zNear = 1;
+    var zFar = 2000;
 
     Renderer(gl, objectF);
 
@@ -148,12 +149,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 matrix = m4.orthographic(left, right, bottom, top, near, far);
             }
 
-            var fieldOfViewRadians = (n:number)=>{return n * Math.PI/180};
-            var aspect = gl.canvas.width / gl.canvas.height;
-            var zNear = 1;
-            var zFar = 2000;
 
-            matrix = m4.perspective(fieldOfViewRadians(90), aspect, zNear, zFar);
+
+            matrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
 
             matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
             matrix = m4.xRotate(matrix, Transform.rotation[0]);
@@ -182,8 +180,6 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             }
         }
 
-        gl.uniform1f(fudgeFactorLocation, fudgeFactorAmount);
-
         {
             // Draw the geometry.
             var primitiveType = gl.TRIANGLES;
@@ -195,7 +191,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
             //Event listeners for the sliders
-    const sliders = ['FudgeFactor','RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
+    const sliders = ['RangeFOV','RangeTX', 'RangeTY','RangeTZ', 'RangeRX','RangeRY','RangeRZ', 'RangeS', 'RangeC'];
     sliders.forEach(sliderId => {
         const slider = document.getElementById(sliderId) as HTMLInputElement;
         if (slider) {
@@ -208,8 +204,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     function handleSliderChange(sliderId: string, value: number, maxSliderValue: number, GameObjectTransform: GameObjectTransforms) {
         const nValue = value / maxSliderValue;
         switch (sliderId) {
-            case 'FudgeFactor':
-                fudgeFactorAmount = nValue*5;
+            case 'RangeFOV':
+                fieldOfViewRadians = value * Math.PI/180;
                 break;
             case 'RangeTX':
                 // Handle X change
