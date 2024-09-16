@@ -90,7 +90,7 @@ Very important, I will write this out once I fully/almost understand everything 
 # Learning Notes
 Showcasing what I went through whilst learning WebGL!
 
-Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky
+Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky | https://www.desmos.com/calculator/txn0gkfylk
 
 ## Part 1 - Hello WebGL!
 ![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
