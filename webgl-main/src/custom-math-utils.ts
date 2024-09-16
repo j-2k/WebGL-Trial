@@ -62,6 +62,18 @@ let m4 = {
     ];
   },
 
+  //https://webglfundamentals.org/webgl/lessons/webgl-3d-perspective.html
+  //This is the same as dividing by z to get the perspective correct
+  //Now we are putting it in W which should be the same as dividing by z
+  makeZToWMatrix: function(fudgeFactor: number) {
+    return [
+      1, 0, 0, 0,
+      0, 1, 1, 0,
+      0, 0, 1, fudgeFactor,
+      0, 0, 0, 1,
+    ];
+  },
+
   orthographic: function(left: number, right: number, bottom: number, top: number, near: number, far: number) {
     return [
       2 / (right - left), 0, 0, 0,
@@ -72,6 +84,18 @@ let m4 = {
       (bottom + top) / (bottom - top),
       (near + far) / (near - far),
       1,
+    ];
+  },
+  
+  perspective: function(fieldOfViewInRadians: number, aspect: number, near: number, far: number) {
+    var f = Math.tan(Math.PI * 0.5 - 0.5 * fieldOfViewInRadians);
+    var rangeInv = 1.0 / (near - far);
+ 
+    return [
+      f / aspect, 0, 0, 0,
+      0, f, 0, 0,
+      0, 0, (near + far) * rangeInv, -1,
+      0, 0, near * far * rangeInv * 2, 0
     ];
   },
 

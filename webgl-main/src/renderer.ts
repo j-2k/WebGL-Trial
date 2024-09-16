@@ -68,8 +68,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     }
 
     let objectF: GameObjectTransforms = {
-        translation: [400, 300, 0],
-        rotation: [0, 0, 0],
+        translation: [0, 0, -200],
+        rotation: [0, 0, Math.PI],
         scale: [1, 1, 1],
         color: [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1]
     }
@@ -126,8 +126,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         {
             gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
             gl.uniform4fv(colorUniformLocation, Transform.color);
-
         }
+
+
 
         let matrix;
         {
@@ -146,6 +147,14 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 var far = -400;
                 matrix = m4.orthographic(left, right, bottom, top, near, far);
             }
+
+            var fieldOfViewRadians = (n:number)=>{return n * Math.PI/180};
+            var aspect = gl.canvas.width / gl.canvas.height;
+            var zNear = 1;
+            var zFar = 2000;
+
+            matrix = m4.perspective(fieldOfViewRadians(60), aspect, zNear, zFar);
+
             matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
             matrix = m4.xRotate(matrix, Transform.rotation[0]);
             matrix = m4.yRotate(matrix, Transform.rotation[1]);

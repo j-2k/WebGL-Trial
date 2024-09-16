@@ -62,9 +62,9 @@ function CreateControlsMenu(canvasId: string): void {
 
         const input = document.createElement('input');
         input.type = 'range';
-        input.min = '0';
-        input.max = '800';
-        input.value = '50';
+        input.min = '-400';
+        input.max = '400';
+        input.value = '180';
         input.className = 'slider';
         input.id = control.id;
         controls.appendChild(input);

@@ -30,14 +30,21 @@ void main() {
   gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
   */
 
+  //Starting Prespective Projection & learning about the Z/W Components
   //Transforms the vertex position to clip space
-  vec4 position = u_matrix * a_position;
+  //vec4 position = u_matrix * a_position;
 
   // Starting Projection - Adjust the z to divide by
-  float zToDivideBy = 1.0 + position.z * u_fudgeFactor;
-  gl_Position = vec4(position.xy / zToDivideBy, position.zw);
+  //pushing range to 0 to 2 for z instead it was -1 to 1
+  //float zToDivideBy = 1.0 + position.z * u_fudgeFactor;
+  //gl_Position = vec4(position.xy / zToDivideBy, position.zw);
 
-  //gl_Position = u_matrix * a_position;
+  //Previously we manually divided by z to get the perspective correct
+  //Now we are putting it in W which should be the same as dividing by z
+  //gl_Position = vec4(position.xyz, zToDivideBy);// its the same result as previous check https://webglfundamentals.org/webgl/lessons/webgl-3d-perspective.html to learn about the W component
+
+  //This is the same as the above commented out code but using the matrix directly to transform the vertex position.
+  gl_Position = u_matrix * a_position;
 
   v_color = a_color;
 }
