@@ -153,7 +153,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             var zNear = 1;
             var zFar = 2000;
 
-            matrix = m4.perspective(fieldOfViewRadians(60), aspect, zNear, zFar);
+            matrix = m4.perspective(fieldOfViewRadians(90), aspect, zNear, zFar);
 
             matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
             matrix = m4.xRotate(matrix, Transform.rotation[0]);
