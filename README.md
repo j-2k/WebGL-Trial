@@ -87,10 +87,23 @@ I will list what I used, just incase for anyone wondering what I used/platform c
 # Graphics Rendering Pipeline Process
 Very important, I will write this out once I fully/almost understand everything in the pipeline.
 
-# Learning Notes
-Showcasing what I went through whilst learning WebGL!
+# Important Computer Graphics Concepts
+This is here to list important topics & showcase some things I went through whilst learning CG & WebGL!  
+*I want to make this clear, but im trying to learn more about CG rather than WebGL right now, since if you know CG you will adapt to any graphics specification!*
 
-Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky | https://www.desmos.com/calculator/txn0gkfylk
+- Projections!
+  - Prespective Projection - [Brendan Galea take on Perspective Projection](https://www.youtube.com/watch?v=U0_ONQQ5ZNM&ab_channel=BrendanGalea) | [ScratchAPixel](https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/projection-matrix-introduction.html)
+  - Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky | https://www.desmos.com/calculator/txn0gkfylk
+- Model View Projection Matrix
+  - X
+- Important Linear Algebra + Matrix Concepts in CG!
+  - The list below is things I didn't want to put separately on top of this section, but needed to be mentioned.
+  - Matrix Multiplication
+  - Translation, Rotation, Scale Matricies / Homogenous Coordinates / Matrix Order
+  - Column Major Order vs Row Major Order
+  - Matrix Inverse (No need to go in deep but try to understand this concept for the camera!)
+
+
 
 ## Part 1 - Hello WebGL!
 ![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
@@ -101,8 +114,11 @@ Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxk
 ## Part 2 - Math Overhaul using 2D Matricies + Orthographic Projection
 ![2D Matrices & Orthographic](webgl-main/img-progress/3-F2D.png)
 
-## Part 3 - 3D Matrices + Prespective Projection + Depth Buffer + Backface Culling/Triangle Order
-![3D Matrices & Prespective](webgl-main/img-progress/4-F3D.png)
+## Part 3 - 3D Matrices + Depth Buffer + Backface Culling/Triangle Order
+![3D Matrices](webgl-main/img-progress/4-F3D.png)
+
+## Part 4 - Prespective Projection
+![Perspective Projection](webgl-main/img-progress/5-F3D-Perspective.png)
 
 ## 5
 
