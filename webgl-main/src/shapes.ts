@@ -1,4 +1,4 @@
-import { RandomFloat } from "./custom-math-utils";
+import MathUtils from "./custom-math-utils";
 
 function Draw2DTriangle(gl: WebGLRenderingContext, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) : void {
     const positions = [
@@ -64,7 +64,7 @@ function DrawRectangle(gl: WebGLRenderingContext, x1: number, y1: number, width:
     }
     else
     {
-        gl.uniform4f(colorUniformPointer, RandomFloat(0,1), RandomFloat(0,1), RandomFloat(0,1), 1);
+        gl.uniform4f(colorUniformPointer, MathUtils.RandomFloat(0,1), MathUtils.RandomFloat(0,1), MathUtils.RandomFloat(0,1), 1);
     }
 
     /*

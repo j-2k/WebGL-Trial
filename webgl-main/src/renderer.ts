@@ -7,7 +7,7 @@ import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
 import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D } from "./shapes";
-import { RandomFloat, m4 } from "./custom-math-utils";
+import MathUtils from "./custom-math-utils";
 import { GameObjectTransforms } from "./engineobjects";
 
 function InitializeRenderer(gl: WebGLRenderingContext): void {
@@ -67,7 +67,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         translation: [0, 0, 0],
         rotation: [0, 0, Math.PI],
         scale: [1, 1, 1],
-        color: [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1]
+        color: [MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), 1]
     }
 
     var fieldOfViewRadians = 90 * Math.PI/180; //Fov takes degrees and converts to radians
@@ -141,11 +141,18 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             //DrawF3DCW(gl);        //CW TRIANGLES CULLING FRONTFACE! Rotate the object it might be invisible!
         }
 
-        var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-        var cameraMatrix = m4.yRotation(cameraAngleRad);
-        cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
-        var viewMatrix = m4.inverse(cameraMatrix);
-        var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+        var projectionMatrix = MathUtils.m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
+        var cameraMatrix = MathUtils.m4.yRotation(cameraAngleRad);
+        cameraMatrix = MathUtils.m4.translate(cameraMatrix, 0, 0, radius * 1.5);
+        
+
+
+
+
+
+
+        var viewMatrix = MathUtils.m4.inverse(cameraMatrix);
+        var viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
 
         for (var ii = 0; ii < numFs; ++ii) {
             var angle = ii * Math.PI * 2 / numFs;
@@ -153,13 +160,13 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             var y = Math.sin(angle) * radius;
       
             //Compute a matrix for the F object (Read from bottom to top for correct order of operations)
-            var matrixF = m4.translate(viewProjectionMatrix, x, 0, y);
-            matrixF = m4.translate(matrixF, objectF.translation[0], objectF.translation[1], objectF.translation[2]);
-            matrixF = m4.multiply(matrixF, m4.xRotation(objectF.rotation[0]));
-            matrixF = m4.multiply(matrixF, m4.yRotation(objectF.rotation[1]));
-            matrixF = m4.multiply(matrixF, m4.zRotation(objectF.rotation[2]));
-            matrixF = m4.scale(matrixF, objectF.scale[0], objectF.scale[1], objectF.scale[2]);
-            matrixF = m4.translate(matrixF, -50, -75, 0);
+            var matrixF = MathUtils.m4.translate(viewProjectionMatrix, x, 0, y);
+            matrixF = MathUtils.m4.translate(matrixF, objectF.translation[0], objectF.translation[1], objectF.translation[2]);
+            matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.xRotation(objectF.rotation[0]));
+            matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.yRotation(objectF.rotation[1]));
+            matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.zRotation(objectF.rotation[2]));
+            matrixF = MathUtils.m4.scale(matrixF, objectF.scale[0], objectF.scale[1], objectF.scale[2]);
+            matrixF = MathUtils.m4.translate(matrixF, -50, -75, 0);
 
             //Pass the matrix to the shader program
             gl.uniformMatrix4fv(matrixLocation, false, matrixF);

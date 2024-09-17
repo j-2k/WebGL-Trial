@@ -6,8 +6,49 @@ function RandomFloat(minInclusive: number, maxInclusive: number) : number {
     return Math.random() * (maxInclusive - minInclusive) + minInclusive;
 }
 
+function cross(a: number[], b: number[]) {
+  return [a[1] * b[2] - a[2] * b[1],
+          a[2] * b[0] - a[0] * b[2],
+          a[0] * b[1] - a[1] * b[0]];
+}
+
+function subtractVectors(a: number[], b: number[]) {
+  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+}
+
+function normalize(v: number[]) {
+  var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+  // make sure we don't divide by zero.
+  if (length > 0.00001) {
+    return [v[0] / length, v[1] / length, v[2] / length];
+  } else {
+    return [0, 0, 0];
+  }
+}
+
+function dot(a: number[], b: number[]) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
 //4x4 matrix for 3D transformations
 let m4 = {
+  lookAt: function(cameraPosition: number[], target: number[], up: number[]) {
+    var zAxis = normalize(
+        subtractVectors(cameraPosition, target));
+    var xAxis = normalize(cross(up, zAxis));
+    var yAxis = normalize(cross(zAxis, xAxis));
+      
+    return [
+       xAxis[0], xAxis[1], xAxis[2], 0,
+       yAxis[0], yAxis[1], yAxis[2], 0,
+       zAxis[0], zAxis[1], zAxis[2], 0,
+       cameraPosition[0],
+       cameraPosition[1],
+       cameraPosition[2],
+       1,
+    ];
+  },
+
     translation: function(tx: number, ty: number, tz: number) {
     return [
        1,  0,  0,  0,
@@ -216,7 +257,7 @@ let m4 = {
     ];
   },
 
-  multiply: function(a, b) {
+  multiply: function(a: number[], b: number[]) {
     var b00 = b[0 * 4 + 0];
     var b01 = b[0 * 4 + 1];
     var b02 = b[0 * 4 + 2];
@@ -356,9 +397,15 @@ let m3 = {
       
   };
 
-export {
+  const MathUtils = {
     RandomFloat,
     RandomInt,
-    m3,
-    m4
-}
+    cross,
+    subtractVectors,
+    normalize,
+    dot,
+    m4,
+    m3
+};
+
+export default MathUtils;
