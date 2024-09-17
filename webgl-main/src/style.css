@@ -7,9 +7,9 @@
   color: rgb(255, 255, 255);
   background-color: #242424;
 
-  background:linear-gradient(45deg, hsl(165, 100%, 53%), #3c5fff, #ff41bc, #ffb833);
-  background-size: 100% 100%;
-
+  background:linear-gradient(45deg, rgb(255,0,0), #FFA500, rgb(202, 0, 152), #ffffff);
+  background-size: 500% 500%;
+  animation: shiftingColors 5s ease infinite;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

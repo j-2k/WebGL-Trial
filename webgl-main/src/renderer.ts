@@ -6,6 +6,9 @@ import { CreateMaterial } from "./render-utils";
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
+import v_textureshader from "./shaders-glsl/textureshader/vertexshader.glsl?raw";
+import f_textureshader from "./shaders-glsl/textureshader/fragmentshader.glsl?raw";
+
 import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D } from "./shapes";
 import MathUtils from "./custom-math-utils";
 import { GameObjectTransforms } from "./engineobjects";
@@ -75,14 +78,14 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     let aspect = gl.canvas.width / gl.canvas.height;
     let zNear = 1;
     let zFar = 2000;
+    let cameraAngleRad = Math.PI*1.5;
+
+    //F objects
     let numFs = 5;
     let radius = 200;
 
-    //Camera Angle
-    let cameraAngleRad = Math.PI*1.5;
-
+    //Delta Time Testing
     let fRotSpeed = 1.5;
-
     let after = 0;
 
     requestAnimationFrame(Renderer);
@@ -91,11 +94,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     UpdateSliderValues(objectF);
 
     function Renderer(): void {
-        console.log("START OF UPDATE --- STARTING UPDATE LOOP!")
+        //console.log("START OF UPDATE --- STARTING UPDATE LOOP!")
         let now = performance.now() * 0.001;
-        console.log("now time stamp: " + now);
+        //console.log("now time stamp: " + now);
         let deltaTime = now - after;
-        console.log("deltaTime: " + deltaTime);
+        //console.log("deltaTime: " + deltaTime);
         after = now;
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
@@ -163,6 +166,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         let cameraMatrix = MathUtils.m4.yRotation(cameraAngleRad);
         cameraMatrix = MathUtils.m4.translate(cameraMatrix, 0, 0, radius * 1.5);
         
+        
         //Camera Look At Implementation
         //in a 4x4 matrix the camera position is in the 4th row on the bottom & its first 3 values from left to right, the index's are 12, 13, 14
         let cameraPos = [
@@ -176,6 +180,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
         // Compute the camera's matrix using look at.
         cameraMatrix = MathUtils.m4.lookAt(cameraPos, fPostion, upVector);
+        
+        
         // Make a view matrix from the camera matrix.
         let viewMatrix = MathUtils.m4.inverse(cameraMatrix);
         let viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
@@ -206,8 +212,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
         // Every frame increase the rotation.
         objectF.rotation[1] += fRotSpeed * deltaTime;
-        console.log("objectF.rotation[1]: " + objectF.rotation[1].toPrecision(1));
-        console.log("END OF UPDATE --- STARTING CALL BACK TO UPDATE LOOP!")
+        //console.log("objectF.rotation[1]: " + objectF.rotation[1].toPrecision(1));
+        //console.log("END OF UPDATE --- STARTING CALL BACK TO UPDATE LOOP!")
         requestAnimationFrame(Renderer);
     }
 
