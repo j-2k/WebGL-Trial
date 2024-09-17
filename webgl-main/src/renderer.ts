@@ -77,6 +77,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     var numFs = 5;
     var radius = 200;
 
+    let cameraAngleRad = Math.PI;
+
     Renderer(gl, objectF);
 
     UpdateSliderValues(objectF);
@@ -140,7 +142,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         }
 
         var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-        var cameraMatrix = m4.yRotation(Math.PI);
+        var cameraMatrix = m4.yRotation(cameraAngleRad);
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
         var viewMatrix = m4.inverse(cameraMatrix);
         var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
@@ -222,9 +224,12 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 break;
             case 'RangeC':
                 // Handle color change
-                const nPI = nValue * Math.PI;
+                //const nPI = nValue * Math.PI;
                 // triangle formation  //2pi/3 = 2.094   //4pi/3 = 4.188
-                GameObjectTransform.color = [Math.sin(nPI)*0.5+0.5, Math.sin(nPI+2.094)*0.5+0.5, Math.sin(nPI+4.188)*0.5+0.5, 1];
+                //GameObjectTransform.color = [Math.sin(nPI)*0.5+0.5, Math.sin(nPI+2.094)*0.5+0.5, Math.sin(nPI+4.188)*0.5+0.5, 1];
+                
+                //Handle Camera Angle
+                cameraAngleRad = nValue * Math.PI*2 + Math.PI;
                 break;
         }
         Renderer(gl, GameObjectTransform);
