@@ -18,7 +18,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         return;
     }
 
-    //Get references to the memory locations of variables in the shader program
+    //Get references to the memory locations of letiables in the shader program
     // look up where the vertex data needs to go.
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram, "a_position");
     const colorLocation = gl.getAttribLocation(shaderProgram, "a_color");
@@ -29,13 +29,13 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
 
     // Create a buffer to put positions in
-    var positionBuffer = gl.createBuffer();
+    let positionBuffer = gl.createBuffer();
 
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     // Create a buffer for colors.
-    var colorBuffer = gl.createBuffer();
+    let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     // Put the colors in the buffer.
     SetColorsOfF3D(gl);
@@ -70,12 +70,12 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         color: [MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), 1]
     }
 
-    var fieldOfViewRadians = 90 * Math.PI/180; //Fov takes degrees and converts to radians
-    var aspect = gl.canvas.width / gl.canvas.height;
-    var zNear = 1;
-    var zFar = 2000;
-    var numFs = 5;
-    var radius = 200;
+    let fieldOfViewRadians = 90 * Math.PI/180; //Fov takes degrees and converts to radians
+    let aspect = gl.canvas.width / gl.canvas.height;
+    let zNear = 1;
+    let zFar = 2000;
+    let numFs = 5;
+    let radius = 200;
 
     let cameraAngleRad = Math.PI;
 
@@ -101,11 +101,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
             // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
-            var size = 3;                 // 3 components per iteration
-            var type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
-            var normalize = true;         // normalize the data (convert from 0-255 to 0-1)
-            var stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
-            var offset = 0;               // start at the beginning of the buffer
+            let size = 3;                 // 3 components per iteration
+            let type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
+            let normalize = true;         // normalize the data (convert from 0-255 to 0-1)
+            let stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            let offset = 0;               // start at the beginning of the buffer
             gl.vertexAttribPointer(
             colorLocation, size, type, normalize, stride, offset);
         }
@@ -141,26 +141,40 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             //DrawF3DCW(gl);        //CW TRIANGLES CULLING FRONTFACE! Rotate the object it might be invisible!
         }
 
-        var projectionMatrix = MathUtils.m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-        var cameraMatrix = MathUtils.m4.yRotation(cameraAngleRad);
+        // the first F in the for-loop is at [radius, 0, 0]
+        let fPostion = [radius, 0, 0];
+
+        let projectionMatrix = MathUtils.m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
+
+        // Use matrix math to compute a position on a circle where
+        // the camera is
+        let cameraMatrix = MathUtils.m4.yRotation(cameraAngleRad);
         cameraMatrix = MathUtils.m4.translate(cameraMatrix, 0, 0, radius * 1.5);
         
+        //Camera Look At Implementation
+        //in a 4x4 matrix the camera position is in the 4th row on the bottom & its first 3 values from left to right, the index's are 12, 13, 14
+        let cameraPos = [
+            cameraMatrix[12],
+            cameraMatrix[13], 
+            cameraMatrix[14]
+        ];
 
+        //Specify the up vector for our camera to do the cross product with!
+        let upVector = [0, 1, 0];
 
+        // Compute the camera's matrix using look at.
+        cameraMatrix = MathUtils.m4.lookAt(cameraPos, fPostion, upVector);
+        // Make a view matrix from the camera matrix.
+        let viewMatrix = MathUtils.m4.inverse(cameraMatrix);
+        let viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
 
-
-
-
-        var viewMatrix = MathUtils.m4.inverse(cameraMatrix);
-        var viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
-
-        for (var ii = 0; ii < numFs; ++ii) {
-            var angle = ii * Math.PI * 2 / numFs;
-            var x = Math.cos(angle) * radius;
-            var y = Math.sin(angle) * radius;
+        for (let ii = 0; ii < numFs; ++ii) {
+            let angle = ii * Math.PI * 2 / numFs;
+            let x = Math.cos(angle) * radius;
+            let y = Math.sin(angle) * radius;
       
             //Compute a matrix for the F object (Read from bottom to top for correct order of operations)
-            var matrixF = MathUtils.m4.translate(viewProjectionMatrix, x, 0, y);
+            let matrixF = MathUtils.m4.translate(viewProjectionMatrix, x, 0, y);
             matrixF = MathUtils.m4.translate(matrixF, objectF.translation[0], objectF.translation[1], objectF.translation[2]);
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.xRotation(objectF.rotation[0]));
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.yRotation(objectF.rotation[1]));
@@ -172,9 +186,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.uniformMatrix4fv(matrixLocation, false, matrixF);
       
             // Draw the geometry
-            var primitiveType = gl.TRIANGLES;
-            var offset = 0;
-            var count = 16 * 6;
+            let primitiveType = gl.TRIANGLES;
+            let offset = 0;
+            let count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
     }

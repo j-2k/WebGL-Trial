@@ -104,6 +104,8 @@ This is here to list important topics & showcase some things I went through whil
   - Matrix Inverse (No need to go in deep but try to understand this concept for the camera!)
 
 
+# Progress Log
+Following the guide of WebGL Fundamentals on https://webglfundamentals.org/
 
 ## Part 1 - Hello WebGL!
 ![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
@@ -121,6 +123,6 @@ This is here to list important topics & showcase some things I went through whil
 ![Perspective Projection](webgl-main/img-progress/5-F3D-Perspective.png)
 
 ## Part 5 - Camera Study
-![Camera Study](webgl-main/img-progress/6-Camera.png)
+![Camera Study](webgl-main/img-progress/6-F3D-Camera-Lookat.gif)
 
 ## 6
