@@ -52,7 +52,7 @@ function CreateControlsMenu(canvasId: string): void {
         { label: 'Rotation Y', id: 'RangeRY' },
         { label: 'Rotation Z', id: 'RangeRZ' },
         { label: 'Scale', id: 'RangeS' },
-        { label: 'Color', id: 'RangeC' }
+        { label: 'LookAt Angle', id: 'RangeC' }
     ];
 
     controlsData.forEach(control => {

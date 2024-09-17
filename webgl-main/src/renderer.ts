@@ -70,6 +70,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         color: [MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), MathUtils.RandomFloat(0, 1), 1]
     }
 
+    //Camera Setup
     let fieldOfViewRadians = 90 * Math.PI/180; //Fov takes degrees and converts to radians
     let aspect = gl.canvas.width / gl.canvas.height;
     let zNear = 1;
@@ -77,14 +78,25 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     let numFs = 5;
     let radius = 200;
 
-    let cameraAngleRad = Math.PI;
+    //Camera Angle
+    let cameraAngleRad = Math.PI*1.5;
 
-    Renderer(gl, objectF);
+    let fRotSpeed = 1.5;
 
+    let after = 0;
+
+    requestAnimationFrame(Renderer);
+
+    Renderer();
     UpdateSliderValues(objectF);
 
-    function Renderer(gl: WebGLRenderingContext, Transform : GameObjectTransforms): void {
-
+    function Renderer(): void {
+        console.log("START OF UPDATE --- STARTING UPDATE LOOP!")
+        let now = performance.now() * 0.001;
+        console.log("now time stamp: " + now);
+        let deltaTime = now - after;
+        console.log("deltaTime: " + deltaTime);
+        after = now;
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -130,7 +142,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
         {
             gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-            gl.uniform4fv(colorUniformLocation, Transform.color);
+            gl.uniform4fv(colorUniformLocation, objectF.color);
         }
 
         {
@@ -191,6 +203,12 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             let count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
+
+        // Every frame increase the rotation.
+        objectF.rotation[1] += fRotSpeed * deltaTime;
+        console.log("objectF.rotation[1]: " + objectF.rotation[1].toPrecision(1));
+        console.log("END OF UPDATE --- STARTING CALL BACK TO UPDATE LOOP!")
+        requestAnimationFrame(Renderer);
     }
 
     function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
@@ -253,7 +271,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
                 cameraAngleRad = nValue * Math.PI*2 + Math.PI;
                 break;
         }
-        Renderer(gl, GameObjectTransform);
+        Renderer();
     }
 }
 }

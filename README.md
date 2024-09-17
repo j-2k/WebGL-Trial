@@ -105,7 +105,8 @@ This is here to list important topics & showcase some things I went through whil
 
 
 # Progress Log
-Following the guide of WebGL Fundamentals on https://webglfundamentals.org/
+- Following the guide of WebGL Fundamentals on https://webglfundamentals.org/
+- Showcasing my progress through the guide. I'm mostly going by order but sometimes I skip around.
 
 ## Part 1 - Hello WebGL!
 ![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
@@ -122,7 +123,8 @@ Following the guide of WebGL Fundamentals on https://webglfundamentals.org/
 ## Part 4 - Prespective Projection
 ![Perspective Projection](webgl-main/img-progress/5-F3D-Perspective.png)
 
-## Part 5 - Camera Study
+## Part 5 - Camera Study - Look At
 ![Camera Study](webgl-main/img-progress/6-F3D-Camera-Lookat.gif)
 
-## 6
+## Part 6 - Delta Time - Update Loop
+![Delta Time F3D](webgl-main/img-progress/7-F3D-deltatime.gif)
