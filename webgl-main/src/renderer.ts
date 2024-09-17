@@ -130,26 +130,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         }
 
 
-
+        /* one F object!
         let matrix;
         {
             //Offset the pivot to the center of the object
             var moveOriginMatrix = m4.translation(-50, -75, 0);
-
-            //Read this from bottom to top, or right to left for easier understanding
-            //1. move the origin to the center of the object //2. rotate the object //3. scale the object //4. translate the object // 5. multiply by the projection matrix to get the clip space positions
-            //matrix = m4.projection(gl.canvas.width, gl.canvas.height, 400);
-            {
-                var left = 0;
-                var right = gl.canvas.width;
-                var bottom = gl.canvas.height;
-                var top = 0;
-                var near = 400;
-                var far = -400;
-                matrix = m4.orthographic(left, right, bottom, top, near, far);
-            }
-
-
 
             matrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
 
@@ -162,25 +147,17 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
             //Scroll to the gifs shown on https://webglfundamentals.org/webgl/lessons/webgl-2d-matrices.html to see a better visual of matrix transformations
             gl.uniformMatrix4fv(matrixLocation, false, matrix);
-        }
+        }*/
 
 
 
 
         {
-            //Draw section!
+            //Triangle order section
             //Check the culling section above to see how to cull the triangles, you can set the instructions to cull front or back faces and set the order of the triangles verts with gl.frontFace(gl.CCW);
             //RED IS THE FRONT FACE OF THE F WHILE THE PURPLE IS THE BACK
-            
-            const isCorrectWinding = true; // change this to see results of different winding direction
-            if(isCorrectWinding){
-                DrawF3DCCW(gl); //CCW TRIANGLES CULLING BACKFACE! 
-            }
-            else{
-                DrawF3DCW(gl); //IF THIS IS INVISIBLE THEN THE FACES ARE CULLING CORRECTLY! CW TRIANGLES ON THE F TRY TO ROT Y AND SEE THEM CULL FRONT FACING TRIS!
-                matrix = m4.yRotate(matrix, 40);
-                gl.uniformMatrix4fv(matrixLocation, false, matrix);
-            }
+            DrawF3DCCW(gl);         //CCW TRIANGLES CULLING BACKFACE! 
+            //DrawF3DCW(gl);        //CW TRIANGLES CULLING FRONTFACE! Rotate the object it might be invisible!
         }
 
         var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
@@ -211,17 +188,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             var offset = 0;
             var count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
-          
         }
         return;
-
-        {
-            // Draw the geometry.
-            var primitiveType = gl.TRIANGLES;
-            var offset = 0;
-            var count = 16 * 6;
-            gl.drawArrays(primitiveType, offset, count);
-        }
     }
 
     function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
