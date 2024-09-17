@@ -120,6 +120,7 @@ This is here to list important topics & showcase some things I went through whil
 ## Part 4 - Prespective Projection
 ![Perspective Projection](webgl-main/img-progress/5-F3D-Perspective.png)
 
-## 5
+## Part 5 - Camera Study
+![Camera Study](webgl-main/img-progress/6-Camera.png)
 
 ## 6

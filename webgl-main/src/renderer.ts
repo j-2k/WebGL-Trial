@@ -64,8 +64,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     }
 
     let objectF: GameObjectTransforms = {
-        translation: [0, 0, -200],
-        rotation: [0, Math.PI, Math.PI],
+        translation: [0, 0, 0],
+        rotation: [0, 0, Math.PI],
         scale: [1, 1, 1],
         color: [RandomFloat(0, 1), RandomFloat(0, 1), RandomFloat(0, 1), 1]
     }
@@ -74,6 +74,8 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     var aspect = gl.canvas.width / gl.canvas.height;
     var zNear = 1;
     var zFar = 2000;
+    var numFs = 5;
+    var radius = 200;
 
     Renderer(gl, objectF);
 
@@ -129,29 +131,6 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.uniform4fv(colorUniformLocation, Transform.color);
         }
 
-
-        /* one F object!
-        let matrix;
-        {
-            //Offset the pivot to the center of the object
-            var moveOriginMatrix = m4.translation(-50, -75, 0);
-
-            matrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-
-            matrix = m4.translate(matrix, Transform.translation[0], Transform.translation[1], Transform.translation[2]);
-            matrix = m4.xRotate(matrix, Transform.rotation[0]);
-            matrix = m4.yRotate(matrix, Transform.rotation[1]);
-            matrix = m4.zRotate(matrix, Transform.rotation[2]);
-            matrix = m4.scale(matrix, Transform.scale[0], Transform.scale[1], Transform.scale[2]);
-            matrix = m4.multiply(matrix, moveOriginMatrix);
-
-            //Scroll to the gifs shown on https://webglfundamentals.org/webgl/lessons/webgl-2d-matrices.html to see a better visual of matrix transformations
-            gl.uniformMatrix4fv(matrixLocation, false, matrix);
-        }*/
-
-
-
-
         {
             //Triangle order section
             //Check the culling section above to see how to cull the triangles, you can set the instructions to cull front or back faces and set the order of the triangles verts with gl.frontFace(gl.CCW);
@@ -161,15 +140,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         }
 
         var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-        
-        var numFs = 5;
-        var radius = 200;
-        // Compute a matrix for the camera
         var cameraMatrix = m4.yRotation(Math.PI);
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
-        // Make a view matrix from the camera matrix.
         var viewMatrix = m4.inverse(cameraMatrix);
-        // Compute a view projection matrix
         var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
 
         for (var ii = 0; ii < numFs; ++ii) {
@@ -177,19 +150,24 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             var x = Math.cos(angle) * radius;
             var y = Math.sin(angle) * radius;
       
-            // starting with the view projection matrix
-            // compute a matrix for the F
-            var matrix2 = m4.translate(viewProjectionMatrix, x, 0, y);
+            //Compute a matrix for the F object (Read from bottom to top for correct order of operations)
+            var matrixF = m4.translate(viewProjectionMatrix, x, 0, y);
+            matrixF = m4.translate(matrixF, objectF.translation[0], objectF.translation[1], objectF.translation[2]);
+            matrixF = m4.multiply(matrixF, m4.xRotation(objectF.rotation[0]));
+            matrixF = m4.multiply(matrixF, m4.yRotation(objectF.rotation[1]));
+            matrixF = m4.multiply(matrixF, m4.zRotation(objectF.rotation[2]));
+            matrixF = m4.scale(matrixF, objectF.scale[0], objectF.scale[1], objectF.scale[2]);
+            matrixF = m4.translate(matrixF, -50, -75, 0);
+
+            //Pass the matrix to the shader program
+            gl.uniformMatrix4fv(matrixLocation, false, matrixF);
       
-            gl.uniformMatrix4fv(matrixLocation, false, matrix2);
-      
-            // Draw the geometry.
+            // Draw the geometry
             var primitiveType = gl.TRIANGLES;
             var offset = 0;
             var count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
-        return;
     }
 
     function UpdateSliderValues(GameObjectTransform: GameObjectTransforms) {
