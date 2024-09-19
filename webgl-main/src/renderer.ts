@@ -9,13 +9,13 @@ import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw"
 import textureShader_V from "./shaders-glsl/textureshader/vertexshader.glsl?raw";
 import textureShader_F from "./shaders-glsl/textureshader/fragmentshader.glsl?raw";
 
-import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D } from "./shapes";
+import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D, SetTexcoords } from "./shapes";
 import MathUtils from "./custom-math-utils";
 import { GameObjectTransforms } from "./engineobjects";
 
 function InitializeRenderer(gl: WebGLRenderingContext): void {
     //Making a shaderprogram that webgl will use.
-    const shaderProgram = CreateMaterial(gl, UVtest_Vshader, UVtest_Fshader);
+    const shaderProgram = CreateMaterial(gl, textureShader_V, textureShader_F);
     if (!shaderProgram) {
         console.error("Failed to create shader program inside the Renderer function...");
         return;
@@ -24,25 +24,46 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     //Get references to the memory locations of letiables in the shader program
     // look up where the vertex data needs to go.
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram, "a_position");
-    const colorLocation = gl.getAttribLocation(shaderProgram, "a_color");
+    const texcoordAttributeLocation = gl.getAttribLocation(shaderProgram,"a_texcoord")
+    //const colorLocation = gl.getAttribLocation(shaderProgram, "a_color");
     
     // lookup uniforms
-    const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
-    const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
+    //const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
+    //const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
 
     // Create a buffer to put positions in
-    let positionBuffer = gl.createBuffer();
+    const positionBuffer = gl.createBuffer();
 
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     // Create a buffer for colors.
-    let colorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    //const colorBuffer = gl.createBuffer();
+    //gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     // Put the colors in the buffer.
-    SetColorsOfF3D(gl);
+    //SetColorsOfF3D(gl);
 
+
+
+    const texBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
+    
+    var textureF = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, textureF);
+    // Fill the texture with a 1x1 blue pixel.
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                  new Uint8Array([0, 0, 255, 255]));
+
+    const img = new Image();
+    img.src = "/f-texture.png";
+    img.addEventListener('load', function() {
+        //Image has been loaded here, now bind it to the texture attribute
+        gl.bindTexture(gl.TEXTURE_2D, textureF);
+        gl.texImage2D(gl.TEXTURE_2D, 0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+        gl.generateMipmap(gl.TEXTURE_2D);
+    })
+    SetTexcoords(gl)
 
     {// Nice to see WebGL do all the work, compared to the Software Rasterizer I did where this had to be done manually
         //Culling section
@@ -108,44 +129,20 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         //Tell WebGL to use the shader program with the final material we made above!
         gl.useProgram(shaderProgram);
 
-        {   
-            // Turn on the color attribute
-            gl.enableVertexAttribArray(colorLocation);
+        {   //Color Attribute Binding
+            //AttributeBinding(gl,colorLocation,3,gl.UNSIGNED_BYTE,true,0,0)
 
-            // Bind the color buffer.
-            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-            // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
-            const size = 3;                 // 3 components per iteration
-            const type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
-            const normalize = true;         // normalize the data (convert from 0-255 to 0-1)
-            const stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
-            const offset = 0;               // start at the beginning of the buffer
-            gl.vertexAttribPointer(
-            colorLocation, size, type, normalize, stride, offset);
+            //Texture Attribute Binding
+            AttributeBinding(gl,texcoordAttributeLocation,texBuffer,2,gl.FLOAT,false,0,0);
         }
 
-        {
-            //Enable the vertex attribute
-            gl.enableVertexAttribArray(positionAttributeLocation);
-
-            //Binding the newly created position buffer to the gl array buffer context, 
-            //this is necessary for the buffer to be used by the shader program 
-            //& gl.ARRAY_BUFFER will be used to pass in vertex data as we'll see later in drawing functions
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-            // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-            const size = 3;          // 3 components per iteration
-            const type = gl.FLOAT;   // the data is 32bit floats
-            const normalize = false; // don't normalize the data
-            const stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-            const offset = 0;        // start at the beginning of the buffer
-            gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+        {   //Position Attribute Binding
+            AttributeBinding(gl, positionAttributeLocation,positionBuffer,3,gl.FLOAT,false,0,0);
         }
 
-        {
-            gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-            gl.uniform4fv(colorUniformLocation, objectF.color);
+        {   //Assigning Attributes in the selected shader material
+            //gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+            //gl.uniform4fv(colorUniformLocation, objectF.color);
         }
 
         {
@@ -282,7 +279,30 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 }
 }
 
+function AttributeBinding(_gl : WebGLRenderingContext, attributeLocation : number, buffer : WebGLBuffer | null,
+    _Size : number = 3, 
+    _Type : number = _gl.FLOAT, 
+    _Normalize : boolean = false, 
+    _Stride : number = 0, 
+    _Offset : number = 0
+)
+{
+    // Turn on the vertex attribute & assign it its location
+    _gl.enableVertexAttribArray(attributeLocation);
 
+    //Bind the GL array buffer with the buffer created for the location above.
+    _gl.bindBuffer(_gl.ARRAY_BUFFER, buffer);
+
+    // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
+    const size = _Size;                     // 3 components per iteration
+    const type = _Type;                     // the data is 8bit unsigned values
+    const normalize = _Normalize;           // normalize the data (convert from 0-255 to 0-1)
+    const stride = _Stride;                 // 0 = move forward size * sizeof(type) each iteration to get the next position
+    const offset = _Offset;                 // start at the beginning of the buffer
+    _gl.vertexAttribPointer(
+    attributeLocation, size, type, normalize, stride, offset);
+    
+}
 
 export {
     InitializeRenderer,

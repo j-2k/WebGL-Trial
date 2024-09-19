@@ -1,5 +1,140 @@
 import MathUtils from "./custom-math-utils";
 
+// Fill the buffer with texture coordinates the F.
+function SetTexcoords(gl : WebGLRenderingContext) {
+  gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([
+        // left column front
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        // top rung front
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        // middle rung front
+        0, 0,
+        0, 1,
+        1, 0,
+        0, 1,
+        1, 1,
+        1, 0,
+
+        // left column back
+        0, 0,
+        1, 0,
+        0, 1,
+        0, 1,
+        1, 0,
+        1, 1,
+
+        // top rung back
+        0, 0,
+        1, 0,
+        0, 1,
+        0, 1,
+        1, 0,
+        1, 1,
+
+        // middle rung back
+        0, 0,
+        1, 0,
+        0, 1,
+        0, 1,
+        1, 0,
+        1, 1,
+
+        // top
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 0,
+        1, 1,
+        0, 1,
+
+        // top rung right
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 0,
+        1, 1,
+        0, 1,
+
+        // under top rung
+        0, 0,
+        0, 1,
+        1, 1,
+        0, 0,
+        1, 1,
+        1, 0,
+
+        // between top rung and middle
+        0, 0,
+        1, 1,
+        0, 1,
+        0, 0,
+        1, 0,
+        1, 1,
+
+        // top of middle rung
+        0, 0,
+        1, 1,
+        0, 1,
+        0, 0,
+        1, 0,
+        1, 1,
+
+        // right of middle rung
+        0, 0,
+        1, 1,
+        0, 1,
+        0, 0,
+        1, 0,
+        1, 1,
+
+        // bottom of middle rung.
+        0, 0,
+        0, 1,
+        1, 1,
+        0, 0,
+        1, 1,
+        1, 0,
+
+        // right of bottom
+        0, 0,
+        1, 1,
+        0, 1,
+        0, 0,
+        1, 0,
+        1, 1,
+
+        // bottom
+        0, 0,
+        0, 1,
+        1, 1,
+        0, 0,
+        1, 1,
+        1, 0,
+
+        // left side
+        0, 0,
+        0, 1,
+        1, 1,
+        0, 0,
+        1, 1,
+        1, 0]),
+      gl.STATIC_DRAW);
+}
+
 function Draw2DTriangle(gl: WebGLRenderingContext, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) : void {
     const positions = [
         x1, y1,
@@ -514,5 +649,6 @@ export {
     DrawF2D,
     DrawF3DCW,
     DrawF3DCCW,
-    SetColorsOfF3D
+    SetColorsOfF3D,
+    SetTexcoords
 }
