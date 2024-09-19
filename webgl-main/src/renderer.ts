@@ -6,8 +6,8 @@ import { CreateMaterial } from "./render-utils";
 import UVtest_Vshader from "./shaders-glsl/UVtestshader/vertexshader.glsl?raw";
 import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw";
 
-import v_textureshader from "./shaders-glsl/textureshader/vertexshader.glsl?raw";
-import f_textureshader from "./shaders-glsl/textureshader/fragmentshader.glsl?raw";
+import textureShader_V from "./shaders-glsl/textureshader/vertexshader.glsl?raw";
+import textureShader_F from "./shaders-glsl/textureshader/fragmentshader.glsl?raw";
 
 import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D } from "./shapes";
 import MathUtils from "./custom-math-utils";
@@ -95,9 +95,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
 
     function Renderer(): void {
         //console.log("START OF UPDATE --- STARTING UPDATE LOOP!")
-        let now = performance.now() * 0.001;
+        const now = performance.now() * 0.001;
         //console.log("now time stamp: " + now);
-        let deltaTime = now - after;
+        const deltaTime = now - after;
         //console.log("deltaTime: " + deltaTime);
         after = now;
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
@@ -116,11 +116,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
             // Tell the attribute how to get data out of colorBuffer (ARRAY_BUFFER)
-            let size = 3;                 // 3 components per iteration
-            let type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
-            let normalize = true;         // normalize the data (convert from 0-255 to 0-1)
-            let stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
-            let offset = 0;               // start at the beginning of the buffer
+            const size = 3;                 // 3 components per iteration
+            const type = gl.UNSIGNED_BYTE;  // the data is 8bit unsigned values
+            const normalize = true;         // normalize the data (convert from 0-255 to 0-1)
+            const stride = 0;               // 0 = move forward size * sizeof(type) each iteration to get the next position
+            const offset = 0;               // start at the beginning of the buffer
             gl.vertexAttribPointer(
             colorLocation, size, type, normalize, stride, offset);
         }
@@ -135,11 +135,11 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
             // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-            let size = 3;          // 3 components per iteration
-            let type = gl.FLOAT;   // the data is 32bit floats
-            let normalize = false; // don't normalize the data
-            let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-            let offset = 0;        // start at the beginning of the buffer
+            const size = 3;          // 3 components per iteration
+            const type = gl.FLOAT;   // the data is 32bit floats
+            const normalize = false; // don't normalize the data
+            const stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
+            const offset = 0;        // start at the beginning of the buffer
             gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
         }
 
@@ -187,9 +187,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         let viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
 
         for (let ii = 0; ii < numFs; ++ii) {
-            let angle = ii * Math.PI * 2 / numFs;
-            let x = Math.cos(angle) * radius;
-            let y = Math.sin(angle) * radius;
+            const angle = ii * Math.PI * 2 / numFs;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
       
             //Compute a matrix for the F object (Read from bottom to top for correct order of operations)
             let matrixF = MathUtils.m4.translate(viewProjectionMatrix, x, 0, y);
@@ -204,9 +204,9 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             gl.uniformMatrix4fv(matrixLocation, false, matrixF);
       
             // Draw the geometry
-            let primitiveType = gl.TRIANGLES;
-            let offset = 0;
-            let count = 16 * 6;
+            const primitiveType = gl.TRIANGLES;
+            const offset = 0;
+            const count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
 
