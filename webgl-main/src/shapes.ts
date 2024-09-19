@@ -5,6 +5,7 @@ function SetTexcoords(gl : WebGLRenderingContext) {
   gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([
+        /* Previously Left Column Front was like this
         // left column front
         0, 0,
         0, 1,
@@ -13,45 +14,62 @@ function SetTexcoords(gl : WebGLRenderingContext) {
         1, 1,
         1, 0,
 
-        // top rung front
-        0, 0,
-        0, 1,
-        1, 0,
-        0, 1,
-        1, 1,
-        1, 0,
+        and it displayed the whole texture in each rectangle
+        in order to only display the correct locations the formula 
+        texcoordX = pixelCoordX / (width  - 1)
+        texcoordY = pixelCoordY / (height - 1)
+        is used to start a texture at its appropriate location and 
+        send it to the correct location in the texture, note tex coords all range from 0 to 1 so
+        we convert pixel coordinates to tex coordinates so we divide.
+        */
 
-        // middle rung front
-        0, 0,
-        0, 1,
-        1, 0,
-        0, 1,
-        1, 1,
-        1, 0,
+        // left column front
+        38 / 255,  44 / 255,
+        38 / 255, 223 / 255,
+       113 / 255,  44 / 255,
+        38 / 255, 223 / 255,
+       113 / 255, 223 / 255,
+       113 / 255,  44 / 255,
 
-        // left column back
-        0, 0,
-        1, 0,
-        0, 1,
-        0, 1,
-        1, 0,
-        1, 1,
+       // top rung front
+       113 / 255, 44 / 255,
+       113 / 255, 85 / 255,
+       218 / 255, 44 / 255,
+       113 / 255, 85 / 255,
+       218 / 255, 85 / 255,
+       218 / 255, 44 / 255,
 
-        // top rung back
-        0, 0,
-        1, 0,
-        0, 1,
-        0, 1,
-        1, 0,
-        1, 1,
+       // middle rung front
+       113 / 255, 112 / 255,
+       113 / 255, 151 / 255,
+       203 / 255, 112 / 255,
+       113 / 255, 151 / 255,
+       203 / 255, 151 / 255,
+       203 / 255, 112 / 255,
 
-        // middle rung back
-        0, 0,
-        1, 0,
-        0, 1,
-        0, 1,
-        1, 0,
-        1, 1,
+       // left column back
+        38 / 255,  44 / 255,
+       113 / 255,  44 / 255,
+        38 / 255, 223 / 255,
+        38 / 255, 223 / 255,
+       113 / 255,  44 / 255,
+       113 / 255, 223 / 255,
+
+       // top rung back
+       113 / 255, 44 / 255,
+       218 / 255, 44 / 255,
+       113 / 255, 85 / 255,
+       113 / 255, 85 / 255,
+       218 / 255, 44 / 255,
+       218 / 255, 85 / 255,
+
+       // middle rung back
+       113 / 255, 112 / 255,
+       203 / 255, 112 / 255,
+       113 / 255, 151 / 255,
+       113 / 255, 151 / 255,
+       203 / 255, 112 / 255,
+       203 / 255, 151 / 255,
 
         // top
         0, 0,
