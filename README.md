@@ -126,5 +126,8 @@ This is here to list important topics & showcase some things I went through whil
 ## Part 5 - Camera Study - Look At
 ![Camera Study](webgl-main/img-progress/6-F3D-Camera-Lookat.gif)
 
-## Part 6 - Delta Time - Update Loop
-![Delta Time F3D](webgl-main/img-progress/7-F3D-deltatime.gif)
+## Part 6 - Delta Time & Texture Sampling
+
+<div align=center>
+  <img src="webgl-main/img-progress/7-F3D-deltatime.gif" width=49%> <img src="webgl-main/img-progress/8-F3D-Texture-Sampling.gif" width=49%>
+</div>
