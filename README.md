@@ -109,25 +109,36 @@ This is here to list important topics & showcase some things I went through whil
 - Showcasing my progress through the guide. I'm mostly going by order but sometimes I skip around.
 
 ## Part 1 - Hello WebGL!
-![Triangle with vertex/fragment shader](webgl-main/img-progress/1-HelloWorld.png)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/1-HelloWorld.png">
+</p>
 
 ## Part 2 - Multiple Rectangles with double Triangles
-![Rectangles (2x Triangles)](webgl-main/img-progress/2-2DRectangles.png)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/2-2DRectangles.png">
+</p>
 
 ## Part 2 - Math Overhaul using 2D Matricies + Orthographic Projection
-![2D Matrices & Orthographic](webgl-main/img-progress/3-F2D.png)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/3-F2D.png">
+</p>
 
 ## Part 3 - 3D Matrices + Depth Buffer + Backface Culling/Triangle Order
-![3D Matrices](webgl-main/img-progress/4-F3D.png)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/4-F3D.png">
+</p>
 
 ## Part 4 - Prespective Projection
-![Perspective Projection](webgl-main/img-progress/5-F3D-Perspective.png)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/5-F3D-Perspective.png">
+</p>
 
 ## Part 5 - Camera Study - Look At
-![Camera Study](webgl-main/img-progress/6-F3D-Camera-Lookat.gif)
+<p align="center">
+<img width=50% src="webgl-main/img-progress/6-F3D-Camera-Lookat.gif">
+</p>
 
 ## Part 6 - Delta Time & Texture Sampling
-
-<div align=center>
+<p align="center">
   <img src="webgl-main/img-progress/7-F3D-deltatime.gif" width=49%> <img src="webgl-main/img-progress/8-F3D-Texture-Sampling.gif" width=49%>
-</div>
+</p>
