@@ -95,7 +95,9 @@ This is here to list important topics & showcase some things I went through whil
   - Prespective Projection - [Brendan Galea take on Perspective Projection](https://www.youtube.com/watch?v=U0_ONQQ5ZNM&ab_channel=BrendanGalea) | [ScratchAPixel](https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/projection-matrix-introduction.html)
   - Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky | https://www.desmos.com/calculator/txn0gkfylk
 - Model View Projection Matrix
-  - X
+  - https://jsantell.com/model-view-projection/
+  - https://www.youtube.com/watch?v=U0_ONQQ5ZNM&list=PL8327DO66nu9qYVKLDmdLW_84-yE4auCR&index=15
+  - 
 - Important Linear Algebra + Matrix Concepts in CG!
   - The list below is things I didn't want to put separately on top of this section, but needed to be mentioned.
   - Matrix Multiplication
