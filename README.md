@@ -96,8 +96,8 @@ This is here to list important topics & showcase some things I went through whil
   - Orthographic centering calculation - https://www.desmos.com/calculator/2dzuo1zxky | https://www.desmos.com/calculator/txn0gkfylk
 - Model View Projection Matrix
   - https://jsantell.com/model-view-projection/
-  - https://www.youtube.com/watch?v=U0_ONQQ5ZNM&list=PL8327DO66nu9qYVKLDmdLW_84-yE4auCR&index=15
-  - 
+- Homogenous Coordinates
+  - https://www.youtube.com/watch?v=o-xwmTODTUI
 - Important Linear Algebra + Matrix Concepts in CG!
   - The list below is things I didn't want to put separately on top of this section, but needed to be mentioned.
   - Matrix Multiplication
