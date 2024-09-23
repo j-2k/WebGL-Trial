@@ -140,7 +140,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     let cameraAngleRad = Math.PI*1.5;
 
     //F objects
-    let numFs = 5;
+    let numFs = 4;
     let radius = 200;
 
     //Delta Time Testing
@@ -213,7 +213,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             cameraMatrix[14]
         ];
         
-        const cameraPositionBackZ = [0,0,20];
+        const cameraPositionBackZ = [0,0,300];
 
         //Specify the up vector for our camera to do the cross product with!
         let upVector = [0, 1, 0];
@@ -229,18 +229,18 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         let viewProjectionMatrix = MathUtils.m4.multiply(projectionMatrix, viewMatrix);
 
         for (let ii = 0; ii < numFs; ++ii) {
-            const angle = ii * Math.PI * 2 / numFs;
+            const angle = ii * Math.PI * 1 / numFs;
             const x = Math.cos(angle) * radius;
             const y = Math.sin(angle) * radius;
       
             //Compute a matrix for the F object (Read from bottom to top for correct order of operations)
             let matrixF = MathUtils.m4.translate(viewProjectionMatrix, x, 0, y);
-            matrixF = MathUtils.m4.translate(matrixF, objectF.translation[0], objectF.translation[1], objectF.translation[2]);
+            matrixF = MathUtils.m4.translate(matrixF, objectF.translation[0], objectF.translation[1] + ii*50 - 100, objectF.translation[2]);
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.xRotation(objectF.rotation[0]));
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.yRotation(objectF.rotation[1]));
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.zRotation(objectF.rotation[2]));
-            matrixF = MathUtils.m4.scale(matrixF, objectF.scale[0]*50, objectF.scale[1]*50, objectF.scale[2]*50);
-           //matrixF = MathUtils.m4.translate(matrixF, -50, -75, 0); //centering offset
+            matrixF = MathUtils.m4.scale(matrixF, objectF.scale[0]*20, objectF.scale[1]*20, objectF.scale[2]*20);
+            //matrixF = MathUtils.m4.translate(matrixF, -50, -75, 0); //centering offset
 
             //Pass the matrix to the shader program
             gl.uniformMatrix4fv(matrixLocation, false, matrixF);
