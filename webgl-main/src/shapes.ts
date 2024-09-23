@@ -1,5 +1,103 @@
 import MathUtils from "./custom-math-utils";
 
+// Fill the buffer with the values that define a cube.
+function Draw3DCube(gl: WebGLRenderingContext) {
+  var positions = new Float32Array([
+    -0.5, -0.5,  -0.5,
+    -0.5,  0.5,  -0.5,
+     0.5, -0.5,  -0.5,
+    -0.5,  0.5,  -0.5,
+     0.5,  0.5,  -0.5,
+     0.5, -0.5,  -0.5,
+
+    -0.5, -0.5,   0.5,
+     0.5, -0.5,   0.5,
+    -0.5,  0.5,   0.5,
+    -0.5,  0.5,   0.5,
+     0.5, -0.5,   0.5,
+     0.5,  0.5,   0.5,
+
+    -0.5,   0.5, -0.5,
+    -0.5,   0.5,  0.5,
+     0.5,   0.5, -0.5,
+    -0.5,   0.5,  0.5,
+     0.5,   0.5,  0.5,
+     0.5,   0.5, -0.5,
+
+    -0.5,  -0.5, -0.5,
+     0.5,  -0.5, -0.5,
+    -0.5,  -0.5,  0.5,
+    -0.5,  -0.5,  0.5,
+     0.5,  -0.5, -0.5,
+     0.5,  -0.5,  0.5,
+
+    -0.5,  -0.5, -0.5,
+    -0.5,  -0.5,  0.5,
+    -0.5,   0.5, -0.5,
+    -0.5,  -0.5,  0.5,
+    -0.5,   0.5,  0.5,
+    -0.5,   0.5, -0.5,
+
+     0.5,  -0.5, -0.5,
+     0.5,   0.5, -0.5,
+     0.5,  -0.5,  0.5,
+     0.5,  -0.5,  0.5,
+     0.5,   0.5, -0.5,
+     0.5,   0.5,  0.5,
+    ]);
+  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+}
+
+function SetTexcoordsCube(gl:WebGLRenderingContext) {
+  gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([
+          0, 0,
+          0, 1,
+          1, 0,
+          0, 1,
+          1, 1,
+          1, 0,
+
+          0, 0,
+          0, 1,
+          1, 0,
+          1, 0,
+          0, 1,
+          1, 1,
+
+          0, 0,
+          0, 1,
+          1, 0,
+          0, 1,
+          1, 1,
+          1, 0,
+
+          0, 0,
+          0, 1,
+          1, 0,
+          1, 0,
+          0, 1,
+          1, 1,
+
+          0, 0,
+          0, 1,
+          1, 0,
+          0, 1,
+          1, 1,
+          1, 0,
+
+          0, 0,
+          0, 1,
+          1, 0,
+          1, 0,
+          0, 1,
+          1, 1,
+
+      ]),
+      gl.STATIC_DRAW);
+}
+
 // Fill the buffer with texture coordinates the F.
 function SetTexcoords(gl : WebGLRenderingContext) {
   gl.bufferData(
@@ -668,5 +766,7 @@ export {
     DrawF3DCW,
     DrawF3DCCW,
     SetColorsOfF3D,
-    SetTexcoords
+    SetTexcoords,
+    SetTexcoordsCube,
+    Draw3DCube
 }

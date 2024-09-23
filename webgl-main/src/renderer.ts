@@ -9,7 +9,7 @@ import UVtest_Fshader from "./shaders-glsl/UVtestshader/fragmentshader.glsl?raw"
 import textureShader_V from "./shaders-glsl/textureshader/vertexshader.glsl?raw";
 import textureShader_F from "./shaders-glsl/textureshader/fragmentshader.glsl?raw";
 
-import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D, SetTexcoords } from "./shapes";
+import { DrawF3DCW, DrawF3DCCW, SetColorsOfF3D, SetTexcoords, SetTexcoordsCube, Draw3DCube } from "./shapes";
 import MathUtils from "./custom-math-utils";
 import { GameObjectTransforms } from "./engineobjects";
 
@@ -31,12 +31,15 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     //const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
     //const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
+    const textureLocation = gl.getUniformLocation(shaderProgram, "u_texture");
 
     // Create a buffer to put positions in
     const positionBuffer = gl.createBuffer();
 
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    Draw3DCube(gl)
 
     // Create a buffer for colors.
     //const colorBuffer = gl.createBuffer();
@@ -45,12 +48,12 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     //SetColorsOfF3D(gl);
 
 
-
+    /*
     const texBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
-    
     var textureF = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, textureF);
+
     // Fill the texture with a 1x1 blue pixel.
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
                   new Uint8Array([0, 0, 255, 255]));
@@ -64,6 +67,41 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         gl.generateMipmap(gl.TEXTURE_2D);
     })
     SetTexcoords(gl)
+    */
+
+
+    var texcoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
+
+    SetTexcoordsCube(gl);
+
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // fill texture with 3x2 pixels
+    const level = 0;
+    const internalFormat = gl.LUMINANCE;
+    const width = 3;
+    const height = 2;
+    const border = 0;
+    const format = gl.LUMINANCE;
+    const type = gl.UNSIGNED_BYTE;
+    const data = new Uint8Array([
+    128,  64, 128,
+        0, 192,   0,
+    ]);
+    const alignment = 1;
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, alignment);
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, width, height, border,
+                format, type, data);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+
+
 
     {// Nice to see WebGL do all the work, compared to the Software Rasterizer I did where this had to be done manually
         //Culling section
@@ -124,21 +162,26 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
         //webglUtils.resizeCanvasToDisplaySize(gl.canvas); for handling canvas size read more here > https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         //Tell WebGL to convert from clip space (-1 to 1) to real pixel space (0 to canvas.width/height)
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+        gl.enable(gl.CULL_FACE);
+        gl.enable(gl.DEPTH_TEST);
         //Now clearing both color & depth buffer
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         //Tell WebGL to use the shader program with the final material we made above!
         gl.useProgram(shaderProgram);
 
+        {   //Position Attribute Binding
+            AttributeBinding(gl, positionAttributeLocation,positionBuffer,3,gl.FLOAT,false,0,0);
+        }
+
         {   //Color Attribute Binding
             //AttributeBinding(gl,colorLocation,3,gl.UNSIGNED_BYTE,true,0,0)
 
             //Texture Attribute Binding
-            AttributeBinding(gl,texcoordAttributeLocation,texBuffer,2,gl.FLOAT,false,0,0);
+            AttributeBinding(gl,texcoordAttributeLocation,texcoordBuffer,2,gl.FLOAT,false,0,0);
         }
 
-        {   //Position Attribute Binding
-            AttributeBinding(gl, positionAttributeLocation,positionBuffer,3,gl.FLOAT,false,0,0);
-        }
+
 
         {   //Assigning Attributes in the selected shader material
             //gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
@@ -149,12 +192,10 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             //Triangle order section
             //Check the culling section above to see how to cull the triangles, you can set the instructions to cull front or back faces and set the order of the triangles verts with gl.frontFace(gl.CCW);
             //RED IS THE FRONT FACE OF THE F WHILE THE PURPLE IS THE BACK
-            DrawF3DCCW(gl);         //CCW TRIANGLES CULLING BACKFACE! 
+            //DrawF3DCCW(gl);         //CCW TRIANGLES CULLING BACKFACE! 
             //DrawF3DCW(gl);        //CW TRIANGLES CULLING FRONTFACE! Rotate the object it might be invisible!
         }
 
-        // the first F in the for-loop is at [radius, 0, 0]
-        let fPostion = [radius, 0, 0];
 
         let projectionMatrix = MathUtils.m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
 
@@ -171,12 +212,16 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             cameraMatrix[13], 
             cameraMatrix[14]
         ];
+        
+        const cameraPositionBackZ = [0,0,20];
 
         //Specify the up vector for our camera to do the cross product with!
         let upVector = [0, 1, 0];
 
+        let targetPosition = [0,0,0];
+
         // Compute the camera's matrix using look at.
-        cameraMatrix = MathUtils.m4.lookAt(cameraPos, fPostion, upVector);
+        cameraMatrix = MathUtils.m4.lookAt(cameraPositionBackZ, targetPosition, upVector);
         
         
         // Make a view matrix from the camera matrix.
@@ -194,16 +239,18 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.xRotation(objectF.rotation[0]));
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.yRotation(objectF.rotation[1]));
             matrixF = MathUtils.m4.multiply(matrixF, MathUtils.m4.zRotation(objectF.rotation[2]));
-            matrixF = MathUtils.m4.scale(matrixF, objectF.scale[0], objectF.scale[1], objectF.scale[2]);
-            matrixF = MathUtils.m4.translate(matrixF, -50, -75, 0);
+            matrixF = MathUtils.m4.scale(matrixF, objectF.scale[0]*50, objectF.scale[1]*50, objectF.scale[2]*50);
+           //matrixF = MathUtils.m4.translate(matrixF, -50, -75, 0); //centering offset
 
             //Pass the matrix to the shader program
             gl.uniformMatrix4fv(matrixLocation, false, matrixF);
-      
+            
+            gl.uniform1i(textureLocation, 0);
+
             // Draw the geometry
             const primitiveType = gl.TRIANGLES;
             const offset = 0;
-            const count = 16 * 6;
+            const count = 6 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
 
