@@ -14,7 +14,7 @@ function main() {
 
   console.log("WebGL is available, proceed with initialization and rendering");
   StartMessages(canvasId, "Voxxer");
-  console.log("Voxxer started successfully");
+  console.log("Voxxer started successfully, starting renderer...");
 }
 
 // Call the main function to start the application
