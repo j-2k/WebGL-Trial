@@ -14,12 +14,7 @@ function StartMessages(
   titleElement.textContent = message;
 
   //Insert the text element before the canvas
-  //document.body.insertBefore(titleElement, canvas);
   document.body.insertBefore(titleElement, canvas);
-
-  //
-  //const navBar = document.createElement('nav');
-  //document.body.appendChild(navBar);
 
   // Create the nav element
   const navBar = document.createElement("nav");
@@ -60,7 +55,6 @@ function StartMessages(
     link.classList.add("nav-link");
     const gitRepoImg = document.createElement("img");
     gitRepoImg.src = "/githublogo.png";
-    //gitRepo.width = 26.25;
     link.appendChild(gitRepoImg);
     navList.appendChild(link);
 
@@ -87,10 +81,7 @@ function StartMessages(
   navBar.appendChild(navContainer);
 
   // Finally, append the navBar to the body (or any other element you want)
-  //document.body.appendChild(navBar);
   document.body.insertBefore(navBar, titleElement);
-
-  ////////////////////////
 
   const bodyMessages = [
     "This is mainly a learning project, I hope you enjoy it!",
