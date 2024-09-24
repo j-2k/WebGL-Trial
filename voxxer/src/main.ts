@@ -1,5 +1,6 @@
 import { initializeCanvas } from "./canvas";
 import { StartMessages } from "./messages";
+import { EngineRenderer } from "./renderer";
 
 function main() {
   const canvasId = "webglCanvas";
@@ -15,6 +16,7 @@ function main() {
   console.log("WebGL is available, proceed with initialization and rendering");
   StartMessages(canvasId, "Voxxer");
   console.log("Voxxer started successfully, starting renderer...");
+  EngineRenderer(gl);
 }
 
 // Call the main function to start the application
