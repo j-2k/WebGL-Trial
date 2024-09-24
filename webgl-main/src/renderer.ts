@@ -22,12 +22,12 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     }
 
     //Get references to the memory locations of letiables in the shader program
-    // look up where the vertex data needs to go.
+    //look up where the vertex data needs to go.
     const positionAttributeLocation = gl.getAttribLocation(shaderProgram, "a_position");
     const texcoordAttributeLocation = gl.getAttribLocation(shaderProgram,"a_texcoord")
     //const colorLocation = gl.getAttribLocation(shaderProgram, "a_color");
     
-    // lookup uniforms
+    //lookup uniforms
     //const resolutionUniformLocation = gl.getUniformLocation(shaderProgram, "u_resolution");
     //const colorUniformLocation = gl.getUniformLocation(shaderProgram, "u_color");
     const matrixLocation = gl.getUniformLocation(shaderProgram, "u_matrix");
@@ -39,7 +39,7 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    Draw3DCube(gl)
+    Draw3DCube(gl);
 
     // Create a buffer for colors.
     //const colorBuffer = gl.createBuffer();
@@ -99,9 +99,6 @@ function InitializeRenderer(gl: WebGLRenderingContext): void {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-
-
-
 
     {// Nice to see WebGL do all the work, compared to the Software Rasterizer I did where this had to be done manually
         //Culling section
