@@ -144,3 +144,12 @@ This is here to list important topics & showcase some things I went through whil
 <p align="center">
   <img src="webgl-main/img-progress/7-F3D-deltatime.gif" width=49%> <img src="webgl-main/img-progress/8-F3D-Texture-Sampling.gif" width=49%>
 </p>
+
+## Part 7 - Procedural Texture Generation + Cube
+<p align="center">
+  <img src="webgl-main/img-progress/9-3D-TextureGeneration.png" width=49%> <img src="webgl-main/img-progress/8-F3D-Texture-Sampling.gif" width=49%>
+</p>
+
+# Restart! - Voxel Time!
+
+## Part 1 - Cube / Refactors
