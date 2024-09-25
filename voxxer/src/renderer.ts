@@ -1,5 +1,9 @@
+import { ShaderUtilites } from './renderer-utils';
 import{ Time } from './time-manager';
 import { mat2, mat2d } from "gl-matrix";
+
+import { Material } from './ShaderMaterials';
+
 function EngineRenderer(gl : WebGLRenderingContext)
 {
     Start(gl);
@@ -34,13 +38,9 @@ function UpdateCore(gl: WebGLRenderingContext) {
 
 function Update(gl: WebGLRenderingContext,)
 {
-    console.log("Updating...")
-    const M2 : mat2 = [
-        1,2,
-        3,4
-    ];
+    console.log("Update Call...");
 
-    console.log((mat2.multiply(mat2.create(),M2,mat2.create())));
+
 }
 
 export {
