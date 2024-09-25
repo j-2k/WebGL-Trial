@@ -157,3 +157,9 @@ This is here to list important topics & showcase some things I went through whil
   <img src="voxxer/readme-images/1-Hello-World-Interpolated.png" width=49%>
 </p>
 
+***I have decided to move this project entirely into a different repository as this repository already holds 3 different folders with different "projects/aims" & this structure for a repository is obviously wrong, so I just got a triangle boilerplate done with some very big backend refactors since I didnt like how my render loop & structure was back then. The continuation repos for this project plan is below!***
+
+### WebGL 1.0 Hello world triangle project : github.com/j-2k/WebGL-Triangle...
+
+### Voxxer Project Continuation : Github.com/j-2k/VoxxerWebGL
+
