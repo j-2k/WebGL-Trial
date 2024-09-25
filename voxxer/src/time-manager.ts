@@ -40,6 +40,4 @@ const timeInstance = new Time();
 timeInstance.instanceMethod();
 */
 
-export {
-    Time
-}
+export default Time;

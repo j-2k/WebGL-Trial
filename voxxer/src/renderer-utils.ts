@@ -55,8 +55,8 @@ function CreateShaderProgram(gl: WebGLRenderingContext, vertexShader: WebGLShade
 
 //Create a shader material in 1 function call
 function CreateShaderMaterial(gl: WebGLRenderingContext, vertexShaderSrc: string, fragmentShaderSrc: string) : WebGLProgram | null {
-    const vertexShader = CompileShader(gl, vertexShaderSrc, gl.VERTEX_SHADER);
-    const fragmentShader = CompileShader(gl, fragmentShaderSrc, gl.FRAGMENT_SHADER);
+    const vertexShader = CompileShaderSource(gl, vertexShaderSrc, gl.VERTEX_SHADER);
+    const fragmentShader = CompileShaderSource(gl, fragmentShaderSrc, gl.FRAGMENT_SHADER);
     if (!vertexShader || !fragmentShader) {
         console.error("Failed to compile vertex or fragment shader inside the CreateShaderMaterial function...");
         return null;
