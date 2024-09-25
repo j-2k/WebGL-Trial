@@ -8,16 +8,21 @@ class Time {
     // Static methods
     static CalculateTimeVariables(): void {
         // Update the current time in seconds
-        Time.now = performance.now() * 0.001;
+        this.now = performance.now() * 0.001;
         
         // Calculate the time difference between now and before
-        Time.deltaTime = Time.now - Time.before;
+        this.deltaTime = Time.now - Time.before;
         
         // Accumulate the total elapsed time
-        Time.time = Time.time + Time.deltaTime;
+        this.time = Time.time + Time.deltaTime;
         
         // Update before time to the current time for the next cycle
-        Time.before = Time.now;
+        this.before = Time.now;
+    }
+
+    // Static method Example for static classes
+    static GetFPS(): number {
+        return 1 / Time.deltaTime;
     }
 
     // Instance method Example for static classes
@@ -26,6 +31,14 @@ class Time {
         Time.CalculateTimeVariables(); // Calling static method
     }
 }
+
+/* Example of calling an instance method of a "static" class
+// Create an instance of the class
+const timeInstance = new Time();
+
+// Call the instance method
+timeInstance.instanceMethod();
+*/
 
 export {
     Time
