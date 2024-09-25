@@ -152,4 +152,8 @@ This is here to list important topics & showcase some things I went through whil
 
 # Restart! - Voxel Time!
 
-## Part 1 - Cube / Refactors
+## Part 1 - Interpolated Triangle - Full refactored backend
+<p align="center">
+  <img src="voxxer/readme-images/1-Hello-World-Interpolated.png" width=49%>
+</p>
+
