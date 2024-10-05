@@ -1,12 +1,6 @@
 # ~~OpenGL_Trials_1~~ 
 ~~the first opengl project, it's time to do some proper graphics (Vulkan later).~~
 
-# Learning WebGL
-Additionally, I will learn a few JS/TS concepts over making a simple WebGL project, & important concepts below.
-1. Stencil JS Project
-2. Web Components API
-3. Need to relearn important things related to web DOM & Components in a web project.
-
 # Project Requirement Notes
 - Have nodejs & npm
   1. Download nodejs & npm (nvm is better than using nodejs installer!)
@@ -83,7 +77,13 @@ I will list what I used, just incase for anyone wondering what I used/platform c
 - Hosting Notes (Ignore):
   - Was looking into hosting services and found this, its a nice website! > https://wheretohostmy.app/free-tier-comparison
   - Used Netlify and it was really fast to setup. Just drag & drop the built project dist files into the host service & thats it! You can get the dist file by doing ```npm run build``` and the dist file will be created.
- 
+
+# Additional things I need to consider learning
+Additionally, I will learn a few JS/TS concepts over making a simple WebGL project, & important concepts below.
+1. Stencil JS Project
+2. Web Components API
+3. Need to relearn important things related to web DOM & Components in a web project.
+
 # Graphics Rendering Pipeline Process
 Very important, I will write this out once I fully/almost understand everything in the pipeline.
 
